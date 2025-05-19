@@ -13,10 +13,10 @@ author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "workflow.run"
-args = "IonicVue App Server"
+args = "dev"
 
 [[workflows.workflow]]
-name = "IonicVue App Server"
+name = "dev"
 author = "agent"
 
 [[workflows.workflow.tasks]]
