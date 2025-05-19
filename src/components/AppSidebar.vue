@@ -69,8 +69,8 @@ import {
   IonItemDivider,
   IonLabel,
   IonIcon,
-  useIonAlert
 } from '@ionic/vue';
+import { alertController } from '@ionic/vue';
 import {
   homeOutline,
   personCircleOutline,
@@ -104,14 +104,13 @@ export default defineComponent({
   },
   emits: ['close'],
   setup() {
-    const [presentAlert] = useIonAlert();
     const { user, logout } = authInstance;
     
     // Generate unique ID for the menu content
     const contentId = computed(() => `menu-content-${Date.now()}`);
     
-    const handleLogout = () => {
-      presentAlert({
+    const handleLogout = async () => {
+      const alert = await alertController.create({
         header: 'Logout',
         message: 'Are you sure you want to logout?',
         buttons: [
@@ -125,6 +124,8 @@ export default defineComponent({
           },
         ],
       });
+      
+      await alert.present();
     };
     
     return {

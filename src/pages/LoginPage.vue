@@ -50,9 +50,9 @@ import {
   IonButton,
   IonText,
   IonIcon,
-  IonSpinner,
-  useIonToast
+  IonSpinner
 } from '@ionic/vue';
+import { toastController } from '@ionic/vue';
 import { bulbOutline } from 'ionicons/icons';
 import { useRouter } from 'vue-router';
 import authInstance from '../composables/useAuth';
@@ -75,7 +75,6 @@ export default defineComponent({
     const username = ref('');
     const password = ref('');
     const { isLoading, error, login } = authInstance;
-    const [presentToast] = useIonToast();
     
     // Check if user is already logged in
     onMounted(() => {
@@ -86,24 +85,26 @@ export default defineComponent({
     
     const handleLogin = async () => {
       if (!username.value || !password.value) {
-        presentToast({
+        const toast = await toastController.create({
           message: 'Please enter both username and password',
           duration: 2000,
           position: 'bottom',
           color: 'danger'
         });
+        await toast.present();
         return;
       }
       
       const success = await login(username.value, password.value);
       
       if (success) {
-        presentToast({
+        const toast = await toastController.create({
           message: 'Login successful',
           duration: 2000,
           position: 'bottom',
           color: 'success'
         });
+        await toast.present();
         router.replace('/home');
       }
     };
