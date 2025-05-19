@@ -178,7 +178,8 @@ export default defineComponent({
       getStatusText,
       filterOutline,
       mapOutline,
-      add
+      add,
+      deliveryStats
     };
   }
 });

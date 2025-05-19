@@ -7,6 +7,8 @@
       </ion-button>
     </div>
     
+    <stats-card :stats="fleetStats" />
+    
     <ion-segment v-model="selectedFilter" >
       <ion-segment-button value="all">
         <ion-label>全部</ion-label>
@@ -74,6 +76,8 @@ import {
   IonCardContent,
   IonBadge
 } from '@ionic/vue';
+import StatsCard from '../common/StatsCard.vue';
+import type { StatItem } from '../common/StatsCard.vue';
 import { 
   carSportOutline, 
   optionsOutline,
@@ -113,10 +117,19 @@ export default defineComponent({
     IonCardHeader,
     IonCardTitle,
     IonCardContent,
-    IonBadge
+    IonBadge,
+    StatsCard
   },
   setup() {
     const selectedFilter = ref('all');
+    
+    // 定義車隊統計數據
+    const fleetStats = ref<StatItem[]>([
+      { value: '8', label: '總車輛數', color: 'primary' },
+      { value: '5', label: '可用車輛', color: 'success' },
+      { value: '2', label: '使用中', color: 'tertiary' },
+      { value: '1', label: '維修中', color: 'warning' }
+    ]);
     
     const vehicles = ref<Vehicle[]>([
       {
