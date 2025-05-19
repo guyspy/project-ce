@@ -149,6 +149,7 @@ import {
   IonTitle,
   IonButtons,
   IonButton,
+  IonToggle,
   alertController
 } from '@ionic/vue';
 import {
@@ -157,7 +158,8 @@ import {
   personOutline,
   informationCircleOutline,
   shieldOutline,
-  documentTextOutline
+  documentTextOutline,
+  colorPaletteOutline
 } from 'ionicons/icons';
 import AppLayout from '../components/AppLayout.vue';
 import authInstance from '../composables/useAuth';
@@ -179,6 +181,7 @@ export default defineComponent({
     IonTitle,
     IonButtons,
     IonButton,
+    IonToggle,
     AppLayout
   },
   setup() {
@@ -274,7 +277,8 @@ export default defineComponent({
       personOutline,
       informationCircleOutline,
       shieldOutline,
-      documentTextOutline
+      documentTextOutline,
+      colorPaletteOutline
     };
   }
 });
