@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "dev": "vite --port ${PORT:-3000}",
+    "dev:host": "vite --host --port ${PORT:-3000}",
+    "build": "vite build",
+    "preview": "vite preview --port ${PORT:-4000}",
+    "preview:host": "vite preview --host --port ${PORT:-4000}",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

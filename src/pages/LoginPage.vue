@@ -11,17 +11,15 @@
         <form @submit.prevent="handleLogin" class="login-form">
           <h2 class="login-title">員工登入</h2>
           
-          <ion-item class="form-input">
-            <ion-label position="floating">使用者名稱</ion-label>
-            <ion-input type="text" v-model="username" required></ion-input>
+          <ion-item>
+            <ion-input label="使用者名稱" type="text" v-model="username" required></ion-input>
           </ion-item>
           
-          <ion-item class="form-input">
-            <ion-label position="floating">密碼</ion-label>
-            <ion-input type="password" v-model="password" required></ion-input>
+          <ion-item>
+            <ion-input label="密碼" type="password" v-model="password" required></ion-input>
           </ion-item>
           
-          <ion-button type="submit" expand="block" class="login-button" :disabled="isLoading">
+          <ion-button type="submit" expand="block" :disabled="isLoading">
             <ion-spinner v-if="isLoading" name="crescent"></ion-spinner>
             <span v-else>登入</span>
           </ion-button>
