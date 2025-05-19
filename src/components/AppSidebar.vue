@@ -38,17 +38,6 @@
         
         <ion-item-divider></ion-item-divider>
         
-        <!-- 帳戶資訊 -->
-        <ion-item>
-          <ion-icon :icon="personOutline" slot="start"></ion-icon>
-          <ion-label>
-            <h2>{{ user.name }}</h2>
-            <p>{{ user.department }} - {{ user.role }}</p>
-          </ion-label>
-        </ion-item>
-        
-        <ion-item-divider></ion-item-divider>
-        
         <ion-item button @click="goToSettings">
           <ion-icon :icon="settingsOutline" slot="start"></ion-icon>
           <ion-label>顯示設定</ion-label>
