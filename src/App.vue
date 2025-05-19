@@ -1,12 +1,12 @@
 <template>
-  <ion-app :class="{ 'dark-theme': isDarkMode }">
+  <ion-app>
     <ion-router-outlet />
   </ion-app>
 </template>
 
 <script lang="ts">
 import { IonApp, IonRouterOutlet } from '@ionic/vue';
-import { defineComponent, onMounted, ref, watch } from 'vue';
+import { defineComponent, onMounted } from 'vue';
 
 // 聲明 window 上的全局方法
 declare global {
@@ -23,93 +23,67 @@ export default defineComponent({
     IonRouterOutlet
   },
   setup() {
-    // 建立全域 theme 參考
-    const isDarkMode = ref(false);
-    
-    // 偵測系統深色模式
-    const detectColorScheme = () => {
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      
-      // 首先檢查用戶設定，如果沒有則使用系統設定
-      const savedTheme = localStorage.getItem('theme');
-      
-      if (savedTheme === 'dark') {
-        isDarkMode.value = true;
-      } else if (savedTheme === 'light') {
-        isDarkMode.value = false;
-      } else {
-        isDarkMode.value = prefersDark;
-      }
-      
-      // 更新文檔主體類別以便可以套用全域樣式
-      updateTheme();
-    };
-    
-    // 監聽系統深色模式變化
-    const setupColorSchemeListener = () => {
-      window.matchMedia('(prefers-color-scheme: dark)')
-        .addEventListener('change', ({ matches }) => {
-          // 只有在沒有用戶設定的情況下才跟隨系統設定
-          if (!localStorage.getItem('theme')) {
-            isDarkMode.value = matches;
-            updateTheme();
-          }
-        });
-    };
-    
-    // 更新深色模式設定
-    const updateTheme = () => {
-      // 首先移除所有相關的類
-      document.documentElement.classList.remove('ios', 'md', 'dark');
-      
-      // 設置平台樣式 (預設使用 iOS)
-      const platform = localStorage.getItem('platform') || 'ios';
-      document.documentElement.classList.add(platform);
-      
-      // 設置深色/淺色模式 (僅在 HTML 根元素上添加)
-      if (isDarkMode.value) {
-        document.documentElement.classList.add('dark');
-        // 設置 CSS 變量以確保顏色正確
-        document.documentElement.style.setProperty('--ion-background-color', 'var(--ion-background-color-dark)');
-        document.documentElement.style.setProperty('--ion-text-color', 'var(--ion-text-color-dark)');
-      } else {
-        // 恢復淺色模式的 CSS 變量
-        document.documentElement.style.removeProperty('--ion-background-color');
-        document.documentElement.style.removeProperty('--ion-text-color');
-      }
-    };
-    
-    // 設定全域方法用於設定模式
+    // 設定全域方法用於設定主題模式
     window.setAppTheme = (theme: 'dark' | 'light' | 'system') => {
       if (theme === 'system') {
+        // 移除 dark 類別，讓系統偏好決定
         localStorage.removeItem('theme');
-        isDarkMode.value = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.classList.remove('dark');
+        
+        // 使用系統偏好
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (prefersDark) {
+          document.documentElement.classList.add('dark');
+        }
+      } else if (theme === 'dark') {
+        localStorage.setItem('theme', 'dark');
+        document.documentElement.classList.add('dark');
       } else {
-        localStorage.setItem('theme', theme);
-        isDarkMode.value = theme === 'dark';
+        localStorage.setItem('theme', 'light');
+        document.documentElement.classList.remove('dark');
       }
-      updateTheme();
     };
     
     // 設定全域方法用於設定平台樣式
     window.setPlatformStyle = (platform: 'ios' | 'md') => {
+      document.documentElement.classList.remove('ios', 'md');
+      document.documentElement.classList.add(platform);
       localStorage.setItem('platform', platform);
-      updateTheme();
     };
     
-    // 監控深色模式變化
-    watch(isDarkMode, () => {
-      updateTheme();
-    });
-    
+    // 初始化主題和平台設定
     onMounted(() => {
-      detectColorScheme();
-      setupColorSchemeListener();
+      // 設置平台樣式
+      const savedPlatform = localStorage.getItem('platform') || 'ios';
+      document.documentElement.classList.add(savedPlatform);
+      
+      // 設置深色/淺色模式
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else if (savedTheme === 'light') {
+        document.documentElement.classList.remove('dark');
+      } else {
+        // 使用系統偏好
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (prefersDark) {
+          document.documentElement.classList.add('dark');
+        }
+        
+        // 監聽系統主題變化
+        window.matchMedia('(prefers-color-scheme: dark)')
+          .addEventListener('change', ({ matches }) => {
+            // 只在沒有用戶設定的情況下跟隨系統
+            if (!localStorage.getItem('theme')) {
+              if (matches) {
+                document.documentElement.classList.add('dark');
+              } else {
+                document.documentElement.classList.remove('dark');
+              }
+            }
+          });
+      }
     });
-    
-    return {
-      isDarkMode
-    };
   }
 });
 </script>

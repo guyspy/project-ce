@@ -4,6 +4,7 @@ import { createRouter, createWebHistory } from '@ionic/vue-router';
 import App from './App.vue';
 import routes from './router';
 import './assets/style.css';
+import './assets/theme.css';
 
 const router = createRouter({
   history: createWebHistory(),
