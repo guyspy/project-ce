@@ -68,40 +68,56 @@
         </ion-card-header>
         <ion-card-content>
           <div class="timeline">
-            <div class="timeline-item" :class="{ 'completed': isStepCompleted('delivered') }">
+            <div class="timeline-item" :class="{ 
+              'completed': isStepCompleted('delivered'), 
+              'current': isCurrentStep('delivered')
+            }">
               <div class="timeline-badge">
                 <ion-icon :icon="checkmarkCircleOutline" v-if="isStepCompleted('delivered')"></ion-icon>
-                <ion-icon :icon="ellipseOutline" v-else></ion-icon>
+                <ion-icon :icon="ellipseOutline" v-else-if="!isCurrentStep('delivered')"></ion-icon>
+                <ion-icon :icon="radioButtonOnOutline" class="pulse-icon" v-else></ion-icon>
               </div>
               <div class="timeline-content">
                 <h3>已送達</h3>
                 <p>{{ delivery && delivery.status === 'completed' ? '11:45 AM' : '預計 11:45 AM' }}</p>
               </div>
             </div>
-            <div class="timeline-item" :class="{ 'completed': isStepCompleted('in-transit') }">
+            <div class="timeline-item" :class="{ 
+              'completed': isStepCompleted('in-transit'), 
+              'current': isCurrentStep('in-transit')
+            }">
               <div class="timeline-badge">
                 <ion-icon :icon="checkmarkCircleOutline" v-if="isStepCompleted('in-transit')"></ion-icon>
-                <ion-icon :icon="ellipseOutline" v-else></ion-icon>
+                <ion-icon :icon="ellipseOutline" v-else-if="!isCurrentStep('in-transit')"></ion-icon>
+                <ion-icon :icon="radioButtonOnOutline" class="pulse-icon" v-else></ion-icon>
               </div>
               <div class="timeline-content">
                 <h3>運送中</h3>
                 <p>10:15 AM</p>
               </div>
             </div>
-            <div class="timeline-item" :class="{ 'completed': isStepCompleted('shipping') }">
+            <div class="timeline-item" :class="{ 
+              'completed': isStepCompleted('shipping'), 
+              'current': isCurrentStep('shipping')
+            }">
               <div class="timeline-badge">
                 <ion-icon :icon="checkmarkCircleOutline" v-if="isStepCompleted('shipping')"></ion-icon>
-                <ion-icon :icon="ellipseOutline" v-else></ion-icon>
+                <ion-icon :icon="ellipseOutline" v-else-if="!isCurrentStep('shipping')"></ion-icon>
+                <ion-icon :icon="radioButtonOnOutline" class="pulse-icon" v-else></ion-icon>
               </div>
               <div class="timeline-content">
                 <h3>配送出發</h3>
                 <p>9:30 AM</p>
               </div>
             </div>
-            <div class="timeline-item" :class="{ 'completed': isStepCompleted('preparing') }">
+            <div class="timeline-item" :class="{ 
+              'completed': isStepCompleted('preparing'), 
+              'current': isCurrentStep('preparing')
+            }">
               <div class="timeline-badge">
                 <ion-icon :icon="checkmarkCircleOutline" v-if="isStepCompleted('preparing')"></ion-icon>
-                <ion-icon :icon="ellipseOutline" v-else></ion-icon>
+                <ion-icon :icon="ellipseOutline" v-else-if="!isCurrentStep('preparing')"></ion-icon>
+                <ion-icon :icon="radioButtonOnOutline" class="pulse-icon" v-else></ion-icon>
               </div>
               <div class="timeline-content">
                 <h3>備貨完成</h3>
@@ -186,6 +202,7 @@ import {
   timeOutline, 
   checkmarkCircleOutline,
   ellipseOutline,
+  radioButtonOnOutline,
   locationOutline,
   callOutline,
   personOutline,
@@ -306,6 +323,31 @@ export default defineComponent({
       return false; // 對於延遲或其他狀態
     };
     
+    // 確定當前進行中的步驟
+    const isCurrentStep = (step: string) => {
+      if (!delivery.value) return false;
+      
+      const status = delivery.value.status;
+      
+      if (status === 'completed') {
+        return step === 'delivered'; // 已完成時，最後一步是當前步驟
+      }
+      
+      if (status === 'in-progress') {
+        return step === 'in-transit'; // 進行中時，運送中是當前步驟
+      }
+      
+      if (status === 'scheduled') {
+        return step === 'shipping'; // 計劃中時，配送出發是當前步驟
+      }
+      
+      if (status === 'delayed') {
+        return step === 'shipping'; // 延遲時，也顯示配送出發為當前步驟
+      }
+      
+      return false;
+    };
+    
     // 獲取配送地址（在真實環境中會從API獲取）
     const getDeliveryAddress = () => {
       const addresses = [
@@ -327,12 +369,14 @@ export default defineComponent({
       getStatusText,
       getStatusClass,
       isStepCompleted,
+      isCurrentStep,
       getDeliveryAddress,
       getDriverName,
       mapOutline,
       timeOutline,
       checkmarkCircleOutline,
       ellipseOutline,
+      radioButtonOnOutline,
       locationOutline,
       callOutline,
       personOutline,
@@ -448,6 +492,11 @@ export default defineComponent({
   background-color: var(--ion-color-success);
 }
 
+.timeline-item.current .timeline-badge {
+  background-color: var(--ion-color-primary);
+  box-shadow: 0 0 0 5px rgba(var(--ion-color-primary-rgb), 0.2);
+}
+
 .timeline-content {
   padding: 5px 0;
 }
@@ -462,6 +511,31 @@ export default defineComponent({
   margin: 0;
   font-size: 14px;
   color: var(--ion-color-medium);
+}
+
+.timeline-item.current .timeline-content h3 {
+  color: var(--ion-color-primary);
+  font-weight: bold;
+}
+
+.pulse-icon {
+  animation: pulse 1.5s infinite;
+  color: var(--ion-color-primary-contrast);
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
 }
 
 .footer-buttons {
