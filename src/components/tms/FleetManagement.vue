@@ -1,7 +1,7 @@
 <template>
   <div class="fleet-management">
     <div class="section-header">
-      <h3 class="section-title">Vehicle Fleet</h3>
+      <h3 class="section-title">車輛管理</h3>
       <ion-button size="small" fill="clear">
         <ion-icon slot="icon-only" :icon="optionsOutline"></ion-icon>
       </ion-button>
@@ -9,13 +9,13 @@
     
     <ion-segment v-model="selectedFilter" class="filter-segment">
       <ion-segment-button value="all">
-        <ion-label>All</ion-label>
+        <ion-label>全部</ion-label>
       </ion-segment-button>
       <ion-segment-button value="available">
-        <ion-label>Available</ion-label>
+        <ion-label>可用</ion-label>
       </ion-segment-button>
       <ion-segment-button value="in-use">
-        <ion-label>In Use</ion-label>
+        <ion-label>使用中</ion-label>
       </ion-segment-button>
     </ion-segment>
     
@@ -26,8 +26,8 @@
           <h2>{{ vehicle.model }}</h2>
           <h3>{{ vehicle.plateNumber }}</h3>
           <p>
-            <ion-text :color="getStatusColor(vehicle.status)">{{ vehicle.status }}</ion-text>
-            <span v-if="vehicle.driver"> • Driver: {{ vehicle.driver }}</span>
+            <ion-text :color="getStatusColor(vehicle.status)">{{ getStatusText(vehicle.status) }}</ion-text>
+            <span v-if="vehicle.driver"> • 駕駛員: {{ vehicle.driver }}</span>
           </p>
         </ion-label>
         <ion-note slot="end" color="medium">{{ vehicle.lastUpdated }}</ion-note>
@@ -36,7 +36,7 @@
     
     <ion-card class="maintenance-card">
       <ion-card-header>
-        <ion-card-title>Maintenance Schedule</ion-card-title>
+        <ion-card-title>維護保養計劃</ion-card-title>
       </ion-card-header>
       <ion-card-content>
         <ion-list lines="none">

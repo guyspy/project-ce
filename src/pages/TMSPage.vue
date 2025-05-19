@@ -1,12 +1,12 @@
 <template>
-  <app-layout title="Transport Management">
+  <app-layout title="TMS 運輸管理">
     <div class="tms-content">
       <ion-segment v-model="selectedSegment" class="segment-control">
         <ion-segment-button value="deliveries">
-          <ion-label>Deliveries</ion-label>
+          <ion-label>配送任務</ion-label>
         </ion-segment-button>
         <ion-segment-button value="fleet">
-          <ion-label>Fleet</ion-label>
+          <ion-label>車隊管理</ion-label>
         </ion-segment-button>
       </ion-segment>
       

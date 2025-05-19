@@ -1,7 +1,7 @@
 <template>
   <div class="delivery-schedule">
     <div class="schedule-header">
-      <h3 class="section-title">Today's Deliveries</h3>
+      <h3 class="section-title">今日配送任務</h3>
       <ion-button size="small" fill="clear">
         <ion-icon slot="icon-only" :icon="filterOutline"></ion-icon>
       </ion-button>
@@ -15,7 +15,7 @@
           <h3>{{ delivery.customer }}</h3>
           <p>{{ delivery.products }}</p>
           <p>
-            <ion-text :color="getStatusColor(delivery.status)">{{ delivery.status }}</ion-text>
+            <ion-text :color="getStatusColor(delivery.status)">{{ getStatusText(delivery.status) }}</ion-text>
             <ion-text color="medium"> • {{ delivery.time }}</ion-text>
           </p>
         </ion-label>
@@ -24,12 +24,12 @@
     
     <ion-card class="delivery-map">
       <ion-card-header>
-        <ion-card-title>Delivery Routes</ion-card-title>
+        <ion-card-title>配送路線</ion-card-title>
       </ion-card-header>
       <ion-card-content>
         <div class="map-placeholder">
           <ion-icon :icon="mapOutline" class="map-icon"></ion-icon>
-          <p>Map view will display delivery routes</p>
+          <p>地圖視圖將顯示配送路線</p>
         </div>
       </ion-card-content>
     </ion-card>
@@ -149,10 +149,21 @@ export default defineComponent({
       }
     };
     
+    const getStatusText = (status: string) => {
+      switch(status) {
+        case 'completed': return '已完成';
+        case 'in-progress': return '進行中';
+        case 'scheduled': return '已排程';
+        case 'delayed': return '延遲';
+        default: return status;
+      }
+    };
+    
     return {
       deliveries,
       getStatusIcon,
       getStatusColor,
+      getStatusText,
       filterOutline,
       mapOutline,
       add

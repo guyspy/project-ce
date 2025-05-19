@@ -1,12 +1,12 @@
 <template>
-  <app-layout title="Warehouse Management">
+  <app-layout title="WMS 倉儲管理">
     <div class="wms-content">
       <ion-segment v-model="selectedSegment" class="segment-control">
         <ion-segment-button value="inventory">
-          <ion-label>Inventory</ion-label>
+          <ion-label>庫存管理</ion-label>
         </ion-segment-button>
         <ion-segment-button value="orders">
-          <ion-label>Orders</ion-label>
+          <ion-label>訂單處理</ion-label>
         </ion-segment-button>
       </ion-segment>
       
