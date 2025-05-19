@@ -236,7 +236,8 @@ export default defineComponent({
       getStatusText,
       carSportOutline,
       optionsOutline,
-      buildOutline
+      buildOutline,
+      fleetStats
     };
   }
 });
