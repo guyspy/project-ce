@@ -38,7 +38,7 @@
         
         <ion-item-divider></ion-item-divider>
         
-        <ion-item button @click="openThemeSettings">
+        <ion-item button @click="goToSettings">
           <ion-icon :icon="settingsOutline" slot="start"></ion-icon>
           <ion-label>設定</ion-label>
         </ion-item>
@@ -63,6 +63,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import {
   IonModal,
   IonHeader,
@@ -136,51 +137,9 @@ export default defineComponent({
       await alert.present();
     };
     
-    const openThemeSettings = async () => {
-      // 獲取當前主題模式
-      const currentTheme = localStorage.getItem('theme') || 'system';
-      
-      const alert = await alertController.create({
-        header: '外觀設定',
-        buttons: [
-          {
-            text: '取消',
-            role: 'cancel'
-          },
-          {
-            text: '確定',
-            role: 'confirm'
-          }
-        ],
-        inputs: [
-          {
-            label: '跟隨系統',
-            type: 'radio',
-            value: 'system',
-            checked: currentTheme === 'system'
-          },
-          {
-            label: '淺色模式',
-            type: 'radio',
-            value: 'light',
-            checked: currentTheme === 'light'
-          },
-          {
-            label: '深色模式',
-            type: 'radio',
-            value: 'dark',
-            checked: currentTheme === 'dark'
-          }
-        ]
-      });
-      
-      await alert.present();
-      
-      const { data, role } = await alert.onDidDismiss();
-      if (role === 'confirm' && data.values) {
-        // 使用全局定義的方法來設置主題
-        (window as any).setAppTheme(data.values);
-      }
+    const goToSettings = () => {
+      router.push('/settings');
+      props.onClose();
     };
     
     return {

@@ -12,6 +12,7 @@ import { defineComponent, onMounted, ref, watch } from 'vue';
 declare global {
   interface Window {
     setAppTheme: (theme: 'dark' | 'light' | 'system') => void;
+    setPlatformStyle: (platform: 'ios' | 'md') => void;
   }
 }
 
@@ -58,10 +59,17 @@ export default defineComponent({
     
     // 更新深色模式設定
     const updateTheme = () => {
+      document.documentElement.classList.remove('ios', 'md');
+      
+      // 設置平台樣式 (預設使用 iOS)
+      const platform = localStorage.getItem('platform') || 'ios';
+      document.documentElement.classList.add(platform);
+      
+      // 設置深色/淺色模式
       if (isDarkMode.value) {
-        document.body.classList.add('dark');
+        document.documentElement.classList.add('dark');
       } else {
-        document.body.classList.remove('dark');
+        document.documentElement.classList.remove('dark');
       }
     };
     
@@ -74,6 +82,12 @@ export default defineComponent({
         localStorage.setItem('theme', theme);
         isDarkMode.value = theme === 'dark';
       }
+      updateTheme();
+    };
+    
+    // 設定全域方法用於設定平台樣式
+    window.setPlatformStyle = (platform: 'ios' | 'md') => {
+      localStorage.setItem('platform', platform);
       updateTheme();
     };
     

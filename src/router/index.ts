@@ -4,6 +4,7 @@ import LoginPage from '../pages/LoginPage.vue';
 import HomePage from '../pages/HomePage.vue';
 import TMSPage from '../pages/TMSPage.vue';
 import WMSPage from '../pages/WMSPage.vue';
+import SettingsPage from '../pages/SettingsPage.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -36,6 +37,12 @@ const routes: Array<RouteRecordRaw> = [
     path: '/wms',
     name: 'WMS',
     component: WMSPage,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/settings',
+    name: 'Settings',
+    component: SettingsPage,
     meta: { requiresAuth: true }
   }
 ];
