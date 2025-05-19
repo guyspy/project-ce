@@ -53,7 +53,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { 
   IonList, 
@@ -71,6 +71,7 @@ import {
 } from '@ionic/vue';
 import StatsCard from '../common/StatsCard.vue';
 import type { StatItem } from '../common/StatsCard.vue';
+import { deliveryData, DeliveryItem } from '../../utils/mockData';
 import { 
   checkmarkCircleOutline, 
   timeOutline, 
@@ -118,40 +119,8 @@ export default defineComponent({
       { value: '3', label: '計劃中', color: 'warning' }
     ]);
 
-    const deliveries = ref<Delivery[]>([
-      {
-        id: 1,
-        orderNumber: 'LB-7842',
-        customer: 'Bright Interiors Inc.',
-        products: 'LED Panels (50), Spotlights (20)',
-        status: 'completed',
-        time: '10:15 AM'
-      },
-      {
-        id: 2,
-        orderNumber: 'LB-7844',
-        customer: 'Modern Living Co.',
-        products: 'Smart Bulbs (100), RGB Strips (5)',
-        status: 'in-progress',
-        time: '12:30 PM'
-      },
-      {
-        id: 3,
-        orderNumber: 'LB-7845',
-        customer: 'Office Solutions Ltd.',
-        products: 'Ceiling Lights (30), Emergency Lights (10)',
-        status: 'scheduled',
-        time: '2:45 PM'
-      },
-      {
-        id: 4,
-        orderNumber: 'LB-7846',
-        customer: 'Homestead Furnishings',
-        products: 'Decorative Lamps (15), Wall Sconces (25)',
-        status: 'delayed',
-        time: '3:30 PM'
-      }
-    ]);
+    // 使用 mockData 中的配送數據
+    const deliveries = ref<DeliveryItem[]>(deliveryData);
     
     const getStatusIcon = (status: string) => {
       switch(status) {

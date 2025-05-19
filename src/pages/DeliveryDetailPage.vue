@@ -79,7 +79,7 @@
               </div>
               <div class="timeline-content">
                 <h3>已送達</h3>
-                <p>{{ delivery && delivery.status === 'completed' ? '11:45 AM' : '預計 11:45 AM' }}</p>
+                <p>{{ deliveryTimeline.find(t => t.step === 'delivered')?.time || '預計 11:45 AM' }}</p>
               </div>
             </div>
             <div class="timeline-item" :class="{ 
@@ -212,16 +212,7 @@ import {
   documentTextOutline
 } from 'ionicons/icons';
 import authInstance from '../composables/useAuth';
-
-// 配送狀態類型
-interface Delivery {
-  id: number;
-  orderNumber: string;
-  customer: string;
-  products: string;
-  status: 'completed' | 'in-progress' | 'scheduled' | 'delayed';
-  time: string;
-}
+import { deliveryData, DeliveryItem, vehicleData, Vehicle } from '../utils/mockData';
 
 export default defineComponent({
   name: 'DeliveryDetailPage',
@@ -247,7 +238,21 @@ export default defineComponent({
     const { isAuthenticated } = authInstance;
     
     // 配送數據
-    const delivery = ref<Delivery | null>(null);
+    const delivery = ref<DeliveryItem | null>(null);
+    
+    // 分配司機資訊
+    const assignedVehicle = ref<Vehicle | null>(null);
+    
+    // 配送地點數據
+    const locations = [
+      { address: '台北市信義區松高路68號', coordinates: { lat: 25.0360, lng: 121.5678 } },
+      { address: '新北市板橋區縣民大道二段7號', coordinates: { lat: 25.0120, lng: 121.4659 } },
+      { address: '台中市西屯區台灣大道三段99號', coordinates: { lat: 24.1651, lng: 120.6419 } },
+      { address: '高雄市前鎮區中華五路789號', coordinates: { lat: 22.6142, lng: 120.3023 } }
+    ];
+    
+    // 配送步驟時間表
+    const deliveryTimeline = ref<{ step: string, time: string, status: string }[]>([]);
     
     // 載入配送數據
     onMounted(async () => {
@@ -256,20 +261,72 @@ export default defineComponent({
         return;
       }
       
-      const deliveryId = route.params.id;
+      const deliveryId = Number(route.params.id);
       if (deliveryId) {
-        // 在真實環境中，這裡會從API獲取數據
-        // 這裡我們臨時創建一個模擬數據
-        delivery.value = {
-          id: Number(deliveryId),
-          orderNumber: `LB-${7840 + Number(deliveryId)}`,
-          customer: ['Bright Interiors Inc.', 'Modern Living Co.', 'Office Solutions Ltd.'][Number(deliveryId) % 3],
-          products: ['LED Panels (50), Spotlights (20)', 'Smart Bulbs (100), RGB Strips (5)', 'Ceiling Lights (30), Emergency Lights (10)'][Number(deliveryId) % 3],
-          status: ['completed', 'in-progress', 'scheduled', 'delayed'][Number(deliveryId) % 4] as any,
-          time: ['9:30 AM', '10:15 AM', '12:30 PM', '2:45 PM'][Number(deliveryId) % 4]
-        };
+        // 從 mockData 中找到對應的配送數據
+        const foundDelivery = deliveryData.find(d => d.id === deliveryId);
+        
+        if (foundDelivery) {
+          delivery.value = foundDelivery;
+          
+          // 根據配送狀態生成時間表
+          generateTimeline(foundDelivery.status);
+          
+          // 根據配送ID分配車輛
+          assignedVehicle.value = vehicleData.find(v => v.status === 'in-use') || null;
+        } else {
+          // 如果找不到，顯示提示並返回
+          console.error('找不到指定ID的配送數據');
+          router.push('/tms');
+        }
       }
     });
+    
+    // 根據配送狀態生成時間表
+    const generateTimeline = (status: string) => {
+      const now = new Date();
+      const baseTime = new Date(now);
+      baseTime.setHours(8, 0, 0, 0); // 基準時間: 上午8點
+      
+      // 準備時間
+      const preparingTime = new Date(baseTime);
+      preparingTime.setMinutes(preparingTime.getMinutes() + 30);
+      
+      // 發貨時間
+      const shippingTime = new Date(preparingTime);
+      shippingTime.setHours(shippingTime.getHours() + 1);
+      
+      // 運送時間
+      const transitTime = new Date(shippingTime);
+      transitTime.setHours(transitTime.getHours() + 2);
+      
+      // 預計送達時間
+      const deliveryTime = new Date(transitTime);
+      deliveryTime.setHours(deliveryTime.getHours() + 1);
+      
+      deliveryTimeline.value = [
+        { 
+          step: 'preparing', 
+          time: `${preparingTime.getHours()}:${String(preparingTime.getMinutes()).padStart(2, '0')} AM`, 
+          status: status === 'delayed' ? 'delayed' : 'completed' 
+        },
+        { 
+          step: 'shipping', 
+          time: `${shippingTime.getHours()}:${String(shippingTime.getMinutes()).padStart(2, '0')} ${shippingTime.getHours() >= 12 ? 'PM' : 'AM'}`, 
+          status: status === 'scheduled' ? 'pending' : status === 'delayed' ? 'delayed' : 'completed' 
+        },
+        { 
+          step: 'in-transit', 
+          time: `${transitTime.getHours()}:${String(transitTime.getMinutes()).padStart(2, '0')} ${transitTime.getHours() >= 12 ? 'PM' : 'AM'}`, 
+          status: status === 'in-progress' ? 'active' : status === 'scheduled' || status === 'delayed' ? 'pending' : 'completed' 
+        },
+        { 
+          step: 'delivered', 
+          time: `${deliveryTime.getHours()}:${String(deliveryTime.getMinutes()).padStart(2, '0')} ${deliveryTime.getHours() >= 12 ? 'PM' : 'AM'}`, 
+          status: status === 'completed' ? 'completed' : 'pending' 
+        }
+      ];
+    };
     
     // 獲取配送狀態文本
     const getStatusText = (status: string) => {
@@ -295,83 +352,70 @@ export default defineComponent({
     
     // 根據配送狀態確定各步驟是否完成
     const isStepCompleted = (step: string) => {
-      if (!delivery.value) return false;
+      if (!delivery.value || !deliveryTimeline.value.length) return false;
       
-      const status = delivery.value.status;
+      // 從時間表中找到對應步驟
+      const timelineStep = deliveryTimeline.value.find(t => t.step === step);
+      if (!timelineStep) return false;
       
-      if (status === 'completed') {
-        return true; // 所有步驟都完成
-      }
-      
-      if (status === 'in-progress') {
-        if (step === 'preparing' || step === 'shipping') {
-          return true;
-        }
-        if (step === 'in-transit') {
-          return true;
-        }
-        return false;
-      }
-      
-      if (status === 'scheduled') {
-        if (step === 'preparing') {
-          return true;
-        }
-        return false;
-      }
-      
-      return false; // 對於延遲或其他狀態
+      return timelineStep.status === 'completed';
     };
     
     // 確定當前進行中的步驟
     const isCurrentStep = (step: string) => {
-      if (!delivery.value) return false;
+      if (!delivery.value || !deliveryTimeline.value.length) return false;
       
-      const status = delivery.value.status;
+      // 從時間表中找到對應步驟
+      const timelineStep = deliveryTimeline.value.find(t => t.step === step);
+      if (!timelineStep) return false;
       
-      if (status === 'completed') {
-        return step === 'delivered'; // 已完成時，最後一步是當前步驟
-      }
-      
-      if (status === 'in-progress') {
-        return step === 'in-transit'; // 進行中時，運送中是當前步驟
-      }
-      
-      if (status === 'scheduled') {
-        return step === 'shipping'; // 計劃中時，配送出發是當前步驟
-      }
-      
-      if (status === 'delayed') {
-        return step === 'shipping'; // 延遲時，也顯示配送出發為當前步驟
-      }
-      
-      return false;
+      return timelineStep.status === 'active';
     };
     
-    // 獲取配送地址（在真實環境中會從API獲取）
+    // 獲取配送地址
     const getDeliveryAddress = () => {
-      const addresses = [
-        '台北市信義區松高路68號',
-        '新北市板橋區縣民大道二段7號',
-        '台中市西屯區台灣大道三段99號'
-      ];
-      return addresses[delivery.value ? delivery.value.id % 3 : 0];
+      if (!delivery.value) return '';
+      // 根據配送ID選擇一個地址
+      const locationIndex = (delivery.value.id - 1) % locations.length;
+      return locations[locationIndex].address;
     };
     
-    // 獲取司機名稱（在真實環境中會從API獲取）
+    // 獲取配送坐標
+    const getDeliveryCoordinates = () => {
+      if (!delivery.value) return { lat: 0, lng: 0 };
+      // 根據配送ID選擇一個坐標
+      const locationIndex = (delivery.value.id - 1) % locations.length;
+      return locations[locationIndex].coordinates;
+    };
+    
+    // 獲取司機名稱
     const getDriverName = () => {
-      const drivers = ['張志明', '王大華', '林小明'];
-      return drivers[delivery.value ? delivery.value.id % 3 : 0];
+      if (!assignedVehicle.value || !assignedVehicle.value.driver) {
+        // 如果沒有分配車輛或車輛沒有司機資訊，使用備用資料
+        const drivers = ['張志明', '王大華', '林小明'];
+        return drivers[delivery.value ? (delivery.value.id - 1) % drivers.length : 0];
+      }
+      return assignedVehicle.value.driver;
+    };
+    
+    // 獲取車輛資訊
+    const getVehicleInfo = () => {
+      if (!assignedVehicle.value) return '等待分配';
+      return `${assignedVehicle.value.model} (${assignedVehicle.value.plateNumber})`;
     };
     
     return {
       delivery,
+      deliveryTimeline,
+      assignedVehicle,
       getStatusText,
       getStatusClass,
       isStepCompleted,
       isCurrentStep,
       getDeliveryAddress,
+      getDeliveryCoordinates,
       getDriverName,
+      getVehicleInfo,
       mapOutline,
       timeOutline,
       checkmarkCircleOutline,
