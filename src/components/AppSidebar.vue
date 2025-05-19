@@ -1,5 +1,5 @@
 <template>
-  <ion-modal :is-open="isOpen" @didDismiss="$emit('close')">
+  <ion-menu side="end" content-id="main-content" :is-open="isOpen" @ionDidClose="$emit('close')">
     <ion-header>
       <ion-toolbar>
         <ion-title>選單</ion-title>
@@ -75,14 +75,14 @@
         <p>LumiBright ERP v1.0.0</p>
       </div>
     </ion-content>
-  </ion-modal>
+  </ion-menu>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import {
-  IonModal,
+  IonMenu,
   IonHeader,
   IonToolbar,
   IonTitle,
@@ -93,8 +93,7 @@ import {
   IonLabel,
   IonIcon,
   IonButton,
-  IonButtons,
-  IonAvatar
+  IonButtons
 } from '@ionic/vue';
 import { alertController } from '@ionic/vue';
 import {
@@ -114,7 +113,7 @@ import authInstance from '../composables/useAuth';
 export default defineComponent({
   name: 'AppSidebar',
   components: {
-    IonModal,
+    IonMenu,
     IonHeader,
     IonToolbar,
     IonTitle,
@@ -125,8 +124,7 @@ export default defineComponent({
     IonButtons,
     IonItemDivider,
     IonLabel,
-    IonIcon,
-    IonAvatar
+    IonIcon
   },
   props: {
     isOpen: {
