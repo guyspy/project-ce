@@ -1,0 +1,254 @@
+<template>
+  <div class="fleet-management">
+    <div class="section-header">
+      <h3 class="section-title">Vehicle Fleet</h3>
+      <ion-button size="small" fill="clear">
+        <ion-icon slot="icon-only" :icon="optionsOutline"></ion-icon>
+      </ion-button>
+    </div>
+    
+    <ion-segment v-model="selectedFilter" class="filter-segment">
+      <ion-segment-button value="all">
+        <ion-label>All</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="available">
+        <ion-label>Available</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="in-use">
+        <ion-label>In Use</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+    
+    <ion-list>
+      <ion-item v-for="vehicle in filteredVehicles" :key="vehicle.id" button detail class="vehicle-item">
+        <ion-icon :icon="carSportOutline" slot="start" :color="getStatusColor(vehicle.status)"></ion-icon>
+        <ion-label>
+          <h2>{{ vehicle.model }}</h2>
+          <h3>{{ vehicle.plateNumber }}</h3>
+          <p>
+            <ion-text :color="getStatusColor(vehicle.status)">{{ vehicle.status }}</ion-text>
+            <span v-if="vehicle.driver"> • Driver: {{ vehicle.driver }}</span>
+          </p>
+        </ion-label>
+        <ion-note slot="end" color="medium">{{ vehicle.lastUpdated }}</ion-note>
+      </ion-item>
+    </ion-list>
+    
+    <ion-card class="maintenance-card">
+      <ion-card-header>
+        <ion-card-title>Maintenance Schedule</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list lines="none">
+          <ion-item v-for="maintenance in maintenanceSchedule" :key="maintenance.id">
+            <ion-icon :icon="buildOutline" slot="start" color="primary"></ion-icon>
+            <ion-label>
+              <h3>{{ maintenance.vehicle }}</h3>
+              <p>{{ maintenance.service }}</p>
+            </ion-label>
+            <ion-badge slot="end" :color="maintenance.urgent ? 'danger' : 'medium'">
+              {{ maintenance.date }}
+            </ion-badge>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</template>
+
+<script lang="ts">
+import { defineComponent, ref, computed } from 'vue';
+import { 
+  IonList, 
+  IonItem, 
+  IonLabel, 
+  IonIcon, 
+  IonNote,
+  IonText,
+  IonButton,
+  IonSegment,
+  IonSegmentButton,
+  IonCard,
+  IonCardHeader,
+  IonCardTitle,
+  IonCardContent,
+  IonBadge
+} from '@ionic/vue';
+import { 
+  carSportOutline, 
+  optionsOutline,
+  buildOutline
+} from 'ionicons/icons';
+
+interface Vehicle {
+  id: number;
+  model: string;
+  plateNumber: string;
+  status: 'available' | 'in-use' | 'maintenance';
+  driver?: string;
+  lastUpdated: string;
+}
+
+interface Maintenance {
+  id: number;
+  vehicle: string;
+  service: string;
+  date: string;
+  urgent: boolean;
+}
+
+export default defineComponent({
+  name: 'FleetManagement',
+  components: {
+    IonList,
+    IonItem,
+    IonLabel,
+    IonIcon,
+    IonNote,
+    IonText,
+    IonButton,
+    IonSegment,
+    IonSegmentButton,
+    IonCard,
+    IonCardHeader,
+    IonCardTitle,
+    IonCardContent,
+    IonBadge
+  },
+  setup() {
+    const selectedFilter = ref('all');
+    
+    const vehicles = ref<Vehicle[]>([
+      {
+        id: 1,
+        model: 'Delivery Van 2.5T',
+        plateNumber: 'LB-V1001',
+        status: 'in-use',
+        driver: 'John Smith',
+        lastUpdated: '15m ago'
+      },
+      {
+        id: 2,
+        model: 'Cargo Truck 5T',
+        plateNumber: 'LB-T2002',
+        status: 'available',
+        lastUpdated: '1h ago'
+      },
+      {
+        id: 3,
+        model: 'Delivery Van 2.5T',
+        plateNumber: 'LB-V1002',
+        status: 'maintenance',
+        lastUpdated: '3h ago'
+      },
+      {
+        id: 4,
+        model: 'Light Pickup Truck',
+        plateNumber: 'LB-P3001',
+        status: 'in-use',
+        driver: 'Mary Johnson',
+        lastUpdated: '30m ago'
+      },
+      {
+        id: 5,
+        model: 'Cargo Truck 8T',
+        plateNumber: 'LB-T2003',
+        status: 'available',
+        lastUpdated: '2h ago'
+      }
+    ]);
+    
+    const maintenanceSchedule = ref<Maintenance[]>([
+      {
+        id: 1,
+        vehicle: 'Van LB-V1002',
+        service: 'Regular Maintenance',
+        date: 'Today',
+        urgent: true
+      },
+      {
+        id: 2,
+        vehicle: 'Truck LB-T2002',
+        service: 'Tire Replacement',
+        date: 'Jun 15',
+        urgent: false
+      },
+      {
+        id: 3,
+        vehicle: 'Van LB-V1001',
+        service: 'Oil Change',
+        date: 'Jun 18',
+        urgent: false
+      }
+    ]);
+    
+    const filteredVehicles = computed(() => {
+      if (selectedFilter.value === 'all') {
+        return vehicles.value;
+      }
+      return vehicles.value.filter(v => {
+        if (selectedFilter.value === 'available') {
+          return v.status === 'available';
+        } else if (selectedFilter.value === 'in-use') {
+          return v.status === 'in-use';
+        }
+        return true;
+      });
+    });
+    
+    const getStatusColor = (status: string) => {
+      switch(status) {
+        case 'available': return 'success';
+        case 'in-use': return 'primary';
+        case 'maintenance': return 'warning';
+        default: return 'medium';
+      }
+    };
+    
+    return {
+      selectedFilter,
+      vehicles,
+      filteredVehicles,
+      maintenanceSchedule,
+      getStatusColor,
+      carSportOutline,
+      optionsOutline,
+      buildOutline
+    };
+  }
+});
+</script>
+
+<style scoped>
+.fleet-management {
+  position: relative;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.section-title {
+  margin: 0;
+}
+
+.filter-segment {
+  margin-bottom: 1rem;
+}
+
+.vehicle-item {
+  --padding-start: 16px;
+  --inner-padding-end: 16px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  --background: var(--ion-color-light);
+}
+
+.maintenance-card {
+  margin-top: 24px;
+  border-radius: 12px;
+}
+</style>

@@ -1,0 +1,108 @@
+/* Global application styles */
+:root {
+  /* Light color scheme */
+  --light-bg: #f4f5f8;
+  --light-text: #121212;
+  --light-border: #d7d8da;
+  --light-card-bg: #ffffff;
+  
+  /* Dark color scheme */
+  --dark-bg: #121212;
+  --dark-text: #f4f5f8;
+  --dark-border: #383a3e;
+  --dark-card-bg: #1e1e1e;
+
+  /* Brand colors */
+  --brand-blue: #3880ff;
+  --brand-yellow: #ffc409;
+  --brand-red: #eb445a;
+  --brand-green: #2dd36f;
+  --brand-gray: #92949c;
+}
+
+/* Custom utility classes */
+.text-center {
+  text-align: center;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.mt-1 { margin-top: 0.25rem; }
+.mt-2 { margin-top: 0.5rem; }
+.mt-3 { margin-top: 0.75rem; }
+.mt-4 { margin-top: 1rem; }
+
+.mb-1 { margin-bottom: 0.25rem; }
+.mb-2 { margin-bottom: 0.5rem; }
+.mb-3 { margin-bottom: 0.75rem; }
+.mb-4 { margin-bottom: 1rem; }
+
+/* Company logo colors */
+.logo-primary {
+  color: var(--brand-blue);
+}
+
+.logo-secondary {
+  color: var(--brand-yellow);
+}
+
+/* Title styles */
+.page-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.section-title {
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-bottom: 0.75rem;
+}
+
+/* Menu tile styling */
+.menu-tile {
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.menu-tile:active {
+  transform: scale(0.98);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Form styling */
+ion-item.form-input {
+  --border-radius: 8px;
+  --border-width: 1px;
+  margin-bottom: 12px;
+}
+
+.auth-container {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+}
+
+/* Animation utilities */
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: .7;
+  }
+}
