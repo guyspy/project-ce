@@ -38,14 +38,31 @@
         
         <ion-item-divider></ion-item-divider>
         
+        <!-- 帳戶資訊 -->
+        <ion-item>
+          <ion-icon :icon="personOutline" slot="start"></ion-icon>
+          <ion-label>
+            <h2>{{ user.name }}</h2>
+            <p>{{ user.department }} - {{ user.role }}</p>
+          </ion-label>
+        </ion-item>
+        
+        <ion-item-divider></ion-item-divider>
+        
         <ion-item button @click="goToSettings">
           <ion-icon :icon="settingsOutline" slot="start"></ion-icon>
-          <ion-label>設定</ion-label>
+          <ion-label>顯示設定</ion-label>
         </ion-item>
         
         <ion-item button detail>
           <ion-icon :icon="helpCircleOutline" slot="start"></ion-icon>
           <ion-label>幫助與支援</ion-label>
+        </ion-item>
+        
+        <!-- 關於應用程式 -->
+        <ion-item button @click="showAbout">
+          <ion-icon :icon="informationCircleOutline" slot="start"></ion-icon>
+          <ion-label>關於應用程式</ion-label>
         </ion-item>
         
         <ion-item button @click="handleLogout">
@@ -82,12 +99,14 @@ import { alertController } from '@ionic/vue';
 import {
   homeOutline,
   personCircleOutline,
+  personOutline,
   carOutline,
   cubeOutline,
   settingsOutline,
   helpCircleOutline,
   logOutOutline,
-  closeOutline
+  closeOutline,
+  informationCircleOutline
 } from 'ionicons/icons';
 import authInstance from '../composables/useAuth';
 
@@ -149,18 +168,34 @@ export default defineComponent({
       emit('close');
     };
     
+    // 顯示關於對話框
+    const showAbout = async () => {
+      const alert = await alertController.create({
+        header: '關於 LumiBright ERP',
+        subHeader: '版本 1.0.0 (2023)',
+        message: '© 2023 LumiBright 科技公司版權所有。未經授權不得複製或分發。',
+        buttons: ['確定']
+      });
+      
+      await alert.present();
+      emit('close');
+    };
+    
     return {
       user,
       handleLogout,
       goToSettings,
+      showAbout,
       closeOutline,
       homeOutline,
       personCircleOutline,
+      personOutline,
       carOutline,
       cubeOutline,
       settingsOutline,
       helpCircleOutline,
-      logOutOutline
+      logOutOutline,
+      informationCircleOutline
     };
   }
 });
