@@ -12,9 +12,7 @@
     </ion-header>
     <ion-content>
       <ion-item lines="none">
-        <ion-avatar slot="start">
-          <ion-icon :icon="personCircleOutline" style="font-size: 2rem"></ion-icon>
-        </ion-avatar>
+        <ion-icon :icon="personCircleOutline" slot="start" style="font-size: 2rem"></ion-icon>
         <ion-label>
           <h2>{{ user?.name }}</h2>
           <p>{{ user?.department }}</p>

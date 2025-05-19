@@ -39,9 +39,7 @@ const router = createRouter({
 
 // 創建應用並使用 Ionic
 const app = createApp(App)
-  .use(IonicVue, {
-    mode: 'ios', // 使用 iOS 模式作為默認外觀
-  })
+  .use(IonicVue)
   .use(router);
 
 router.isReady().then(() => {
