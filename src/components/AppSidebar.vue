@@ -1,8 +1,13 @@
 <template>
-  <ion-menu side="end" type="overlay" :content-id="contentId" :is-open="isOpen" @ionDidClose="$emit('close')">
+  <ion-modal :is-open="isOpen" @didDismiss="$emit('close')">
     <ion-header>
       <ion-toolbar>
         <ion-title>選單</ion-title>
+        <ion-buttons slot="end">
+          <ion-button @click="$emit('close')">
+            <ion-icon :icon="closeOutline" slot="icon-only"></ion-icon>
+          </ion-button>
+        </ion-buttons>
       </ion-toolbar>
     </ion-header>
     <ion-content>
@@ -53,11 +58,11 @@
         <p>LumiBright ERP v1.0.0</p>
       </div>
     </ion-content>
-  </ion-menu>
+  </ion-modal>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
+import { defineComponent, ref } from 'vue';
 import {
   IonMenu,
   IonHeader,
@@ -78,7 +83,8 @@ import {
   cubeOutline,
   settingsOutline,
   helpCircleOutline,
-  logOutOutline
+  logOutOutline,
+  closeOutline
 } from 'ionicons/icons';
 import authInstance from '../composables/useAuth';
 
@@ -106,9 +112,6 @@ export default defineComponent({
   setup() {
     const { user, logout } = authInstance;
     
-    // Use the content ID from parent component
-    const contentId = ref('main-content');
-    
     const handleLogout = async () => {
       const alert = await alertController.create({
         header: '登出',
@@ -129,9 +132,9 @@ export default defineComponent({
     };
     
     return {
-      contentId,
       user,
       handleLogout,
+      closeOutline,
       homeOutline,
       personCircleOutline,
       carOutline,

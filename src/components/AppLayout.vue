@@ -33,7 +33,7 @@
     <ion-modal :is-open="isNotificationsOpen" @didDismiss="isNotificationsOpen = false">
       <ion-header>
         <ion-toolbar>
-          <ion-title>Notifications</ion-title>
+          <ion-title>通知</ion-title>
           <ion-buttons slot="end">
             <ion-button @click="isNotificationsOpen = false">
               <ion-icon :icon="closeOutline" slot="icon-only"></ion-icon>
