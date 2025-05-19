@@ -63,14 +63,9 @@ import {
   IonButton,
   IonSegment,
   IonSegmentButton,
-  IonCard,
-  IonCardContent,
   IonThumbnail,
   IonFab,
-  IonFabButton,
-  IonGrid,
-  IonRow,
-  IonCol
+  IonFabButton
 } from '@ionic/vue';
 import { 
   bulbOutline, 
@@ -79,6 +74,8 @@ import {
   searchOutline,
   add
 } from 'ionicons/icons';
+import StatsCard from '../common/StatsCard.vue';
+import type { StatItem } from '../common/StatsCard.vue';
 
 interface Product {
   id: number;
@@ -102,17 +99,21 @@ export default defineComponent({
     IonButton,
     IonSegment,
     IonSegmentButton,
-    IonCard,
-    IonCardContent,
     IonThumbnail,
     IonFab,
     IonFabButton,
-    IonGrid,
-    IonRow,
-    IonCol
+    StatsCard
   },
   setup() {
     const selectedCategory = ref('all');
+    
+    // 定義庫存統計數據
+    const inventoryStats = ref<StatItem[]>([
+      { value: '1,248', label: '總SKU數' },
+      { value: '36', label: '低庫存' },
+      { value: '98.2%', label: '可用率' },
+      { value: '87', label: '需要補貨' }
+    ]);
     
     const products = ref<Product[]>([
       {
