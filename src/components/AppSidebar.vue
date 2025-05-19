@@ -4,7 +4,7 @@
       <ion-toolbar>
         <ion-title>選單</ion-title>
         <ion-buttons slot="end">
-          <ion-button @click="closeMenu()">
+          <ion-button id="close-menu">
             <ion-icon :icon="closeOutline" slot="icon-only"></ion-icon>
           </ion-button>
         </ion-buttons>
@@ -68,7 +68,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { menuController } from '@ionic/vue';
 import {
@@ -83,7 +83,8 @@ import {
   IonLabel,
   IonIcon,
   IonButton,
-  IonButtons
+  IonButtons,
+  IonMenuToggle
 } from '@ionic/vue';
 import { alertController } from '@ionic/vue';
 import {
@@ -114,7 +115,8 @@ export default defineComponent({
     IonButtons,
     IonItemDivider,
     IonLabel,
-    IonIcon
+    IonIcon,
+    IonMenuToggle
   },
   props: {
     isOpen: {
@@ -127,9 +129,18 @@ export default defineComponent({
     const router = useRouter();
     const { user } = authInstance;
     
-    const closeMenu = async () => {
-      await menuController.close();
-      emit('close');
+    // 添加關閉菜單的事件監聽
+    const setupCloseMenuEvent = () => {
+      setTimeout(() => {
+        const closeBtn = document.getElementById('close-menu');
+        if (closeBtn) {
+          closeBtn.addEventListener('click', async () => {
+            console.log('Close button clicked');
+            await menuController.close('end');
+            emit('close');
+          });
+        }
+      }, 100);
     };
     const isThemeSettingsOpen = ref(false);
     
