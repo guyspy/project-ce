@@ -68,24 +68,14 @@
         </ion-card-header>
         <ion-card-content>
           <div class="timeline">
-            <div class="timeline-item" :class="{ 'completed': isStepCompleted('preparing') }">
+            <div class="timeline-item" :class="{ 'completed': isStepCompleted('delivered') }">
               <div class="timeline-badge">
-                <ion-icon :icon="checkmarkCircleOutline" v-if="isStepCompleted('preparing')"></ion-icon>
+                <ion-icon :icon="checkmarkCircleOutline" v-if="isStepCompleted('delivered')"></ion-icon>
                 <ion-icon :icon="ellipseOutline" v-else></ion-icon>
               </div>
               <div class="timeline-content">
-                <h3>備貨完成</h3>
-                <p>9:00 AM</p>
-              </div>
-            </div>
-            <div class="timeline-item" :class="{ 'completed': isStepCompleted('shipping') }">
-              <div class="timeline-badge">
-                <ion-icon :icon="checkmarkCircleOutline" v-if="isStepCompleted('shipping')"></ion-icon>
-                <ion-icon :icon="ellipseOutline" v-else></ion-icon>
-              </div>
-              <div class="timeline-content">
-                <h3>配送出發</h3>
-                <p>9:30 AM</p>
+                <h3>已送達</h3>
+                <p>{{ delivery && delivery.status === 'completed' ? '11:45 AM' : '預計 11:45 AM' }}</p>
               </div>
             </div>
             <div class="timeline-item" :class="{ 'completed': isStepCompleted('in-transit') }">
@@ -98,14 +88,24 @@
                 <p>10:15 AM</p>
               </div>
             </div>
-            <div class="timeline-item" :class="{ 'completed': isStepCompleted('delivered') }">
+            <div class="timeline-item" :class="{ 'completed': isStepCompleted('shipping') }">
               <div class="timeline-badge">
-                <ion-icon :icon="checkmarkCircleOutline" v-if="isStepCompleted('delivered')"></ion-icon>
+                <ion-icon :icon="checkmarkCircleOutline" v-if="isStepCompleted('shipping')"></ion-icon>
                 <ion-icon :icon="ellipseOutline" v-else></ion-icon>
               </div>
               <div class="timeline-content">
-                <h3>已送達</h3>
-                <p>{{ delivery && delivery.status === 'completed' ? '11:45 AM' : '預計 11:45 AM' }}</p>
+                <h3>配送出發</h3>
+                <p>9:30 AM</p>
+              </div>
+            </div>
+            <div class="timeline-item" :class="{ 'completed': isStepCompleted('preparing') }">
+              <div class="timeline-badge">
+                <ion-icon :icon="checkmarkCircleOutline" v-if="isStepCompleted('preparing')"></ion-icon>
+                <ion-icon :icon="ellipseOutline" v-else></ion-icon>
+              </div>
+              <div class="timeline-content">
+                <h3>備貨完成</h3>
+                <p>9:00 AM</p>
               </div>
             </div>
           </div>
