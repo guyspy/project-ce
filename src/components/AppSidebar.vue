@@ -38,7 +38,7 @@
         
         <ion-item-divider></ion-item-divider>
         
-        <ion-item button detail>
+        <ion-item button @click="openThemeSettings">
           <ion-icon :icon="settingsOutline" slot="start"></ion-icon>
           <ion-label>設定</ion-label>
         </ion-item>
@@ -64,7 +64,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import {
-  IonMenu,
+  IonModal,
   IonHeader,
   IonToolbar,
   IonTitle,
@@ -74,6 +74,8 @@ import {
   IonItemDivider,
   IonLabel,
   IonIcon,
+  IonButton,
+  IonButtons
 } from '@ionic/vue';
 import { alertController } from '@ionic/vue';
 import {
@@ -91,13 +93,15 @@ import authInstance from '../composables/useAuth';
 export default defineComponent({
   name: 'AppSidebar',
   components: {
-    IonMenu,
+    IonModal,
     IonHeader,
     IonToolbar,
     IonTitle,
     IonContent,
     IonList,
     IonItem,
+    IonButton,
+    IonButtons,
     IonItemDivider,
     IonLabel,
     IonIcon
@@ -111,6 +115,7 @@ export default defineComponent({
   emits: ['close'],
   setup() {
     const { user, logout } = authInstance;
+    const isThemeSettingsOpen = ref(false);
     
     const handleLogout = async () => {
       const alert = await alertController.create({
@@ -131,9 +136,57 @@ export default defineComponent({
       await alert.present();
     };
     
+    const openThemeSettings = async () => {
+      // 獲取當前主題模式
+      const currentTheme = localStorage.getItem('theme') || 'system';
+      
+      const alert = await alertController.create({
+        header: '外觀設定',
+        buttons: [
+          {
+            text: '取消',
+            role: 'cancel'
+          },
+          {
+            text: '確定',
+            role: 'confirm'
+          }
+        ],
+        inputs: [
+          {
+            label: '跟隨系統',
+            type: 'radio',
+            value: 'system',
+            checked: currentTheme === 'system'
+          },
+          {
+            label: '淺色模式',
+            type: 'radio',
+            value: 'light',
+            checked: currentTheme === 'light'
+          },
+          {
+            label: '深色模式',
+            type: 'radio',
+            value: 'dark',
+            checked: currentTheme === 'dark'
+          }
+        ]
+      });
+      
+      await alert.present();
+      
+      const { data, role } = await alert.onDidDismiss();
+      if (role === 'confirm' && data.values) {
+        // 使用全局定義的方法來設置主題
+        (window as any).setAppTheme(data.values);
+      }
+    };
+    
     return {
       user,
       handleLogout,
+      openThemeSettings,
       closeOutline,
       homeOutline,
       personCircleOutline,
