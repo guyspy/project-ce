@@ -13,9 +13,7 @@
             <ion-icon :icon="notificationsOutline" slot="icon-only"></ion-icon>
             <ion-badge color="danger" v-if="notificationCount > 0">{{ notificationCount }}</ion-badge>
           </ion-button>
-          <ion-button @click="toggleMenu">
-            <ion-icon :icon="menuOutline" slot="icon-only"></ion-icon>
-          </ion-button>
+          <ion-menu-button></ion-menu-button>
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
@@ -80,7 +78,8 @@ import {
   IonModal,
   IonList,
   IonItem,
-  IonLabel
+  IonLabel,
+  IonMenuButton
 } from '@ionic/vue';
 import {
   menuOutline,
@@ -118,7 +117,8 @@ export default defineComponent({
     IonModal,
     IonList,
     IonItem,
-    IonLabel
+    IonLabel,
+    IonMenuButton
   },
   props: {
     title: {
