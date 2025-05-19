@@ -9,21 +9,21 @@
         </div>
         
         <form @submit.prevent="handleLogin" class="login-form">
-          <h2 class="login-title">Employee Login</h2>
+          <h2 class="login-title">員工登入</h2>
           
           <ion-item class="form-input">
-            <ion-label position="floating">Username</ion-label>
+            <ion-label position="floating">使用者名稱</ion-label>
             <ion-input type="text" v-model="username" required></ion-input>
           </ion-item>
           
           <ion-item class="form-input">
-            <ion-label position="floating">Password</ion-label>
+            <ion-label position="floating">密碼</ion-label>
             <ion-input type="password" v-model="password" required></ion-input>
           </ion-item>
           
           <ion-button type="submit" expand="block" class="login-button" :disabled="isLoading">
             <ion-spinner v-if="isLoading" name="crescent"></ion-spinner>
-            <span v-else>Login</span>
+            <span v-else>登入</span>
           </ion-button>
           
           <ion-text color="danger" v-if="error">
@@ -86,7 +86,7 @@ export default defineComponent({
     const handleLogin = async () => {
       if (!username.value || !password.value) {
         const toast = await toastController.create({
-          message: 'Please enter both username and password',
+          message: '請輸入使用者名稱和密碼',
           duration: 2000,
           position: 'bottom',
           color: 'danger'
@@ -99,7 +99,7 @@ export default defineComponent({
       
       if (success) {
         const toast = await toastController.create({
-          message: 'Login successful',
+          message: '登入成功',
           duration: 2000,
           position: 'bottom',
           color: 'success'

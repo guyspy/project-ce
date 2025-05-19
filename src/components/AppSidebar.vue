@@ -2,7 +2,7 @@
   <ion-menu side="end" type="overlay" :content-id="contentId" :is-open="isOpen" @ionDidClose="$emit('close')">
     <ion-header>
       <ion-toolbar>
-        <ion-title>Menu</ion-title>
+        <ion-title>選單</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content>
@@ -18,34 +18,34 @@
       <ion-list lines="none">
         <ion-item button router-link="/home" @click="$emit('close')">
           <ion-icon :icon="homeOutline" slot="start"></ion-icon>
-          <ion-label>Home</ion-label>
+          <ion-label>首頁</ion-label>
         </ion-item>
         
         <ion-item button router-link="/tms" @click="$emit('close')">
           <ion-icon :icon="carOutline" slot="start"></ion-icon>
-          <ion-label>Transport Management</ion-label>
+          <ion-label>TMS 運輸管理</ion-label>
         </ion-item>
         
         <ion-item button router-link="/wms" @click="$emit('close')">
           <ion-icon :icon="cubeOutline" slot="start"></ion-icon>
-          <ion-label>Warehouse Management</ion-label>
+          <ion-label>WMS 倉儲管理</ion-label>
         </ion-item>
         
         <ion-item-divider></ion-item-divider>
         
         <ion-item button detail>
           <ion-icon :icon="settingsOutline" slot="start"></ion-icon>
-          <ion-label>Settings</ion-label>
+          <ion-label>設定</ion-label>
         </ion-item>
         
         <ion-item button detail>
           <ion-icon :icon="helpCircleOutline" slot="start"></ion-icon>
-          <ion-label>Help & Support</ion-label>
+          <ion-label>幫助與支援</ion-label>
         </ion-item>
         
         <ion-item button @click="handleLogout">
           <ion-icon :icon="logOutOutline" slot="start" color="danger"></ion-icon>
-          <ion-label color="danger">Logout</ion-label>
+          <ion-label color="danger">登出</ion-label>
         </ion-item>
       </ion-list>
       
@@ -111,12 +111,12 @@ export default defineComponent({
     
     const handleLogout = async () => {
       const alert = await alertController.create({
-        header: 'Logout',
-        message: 'Are you sure you want to logout?',
+        header: '登出',
+        message: '您確定要登出嗎？',
         buttons: [
-          'Cancel',
+          '取消',
           {
-            text: 'Logout',
+            text: '登出',
             role: 'confirm',
             handler: () => {
               logout();

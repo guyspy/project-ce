@@ -1,59 +1,59 @@
 <template>
   <app-layout title="LumiBright ERP">
     <div class="home-content">
-      <h2 class="welcome-message">Welcome, {{ user?.name }}</h2>
+      <h2 class="welcome-message">歡迎，{{ user?.name }}</h2>
       <p class="user-details">{{ user?.department }} | {{ user?.role }}</p>
       
       <div class="menu-grid">
         <menu-tile 
           title="CRM" 
           icon="people"
-          description="Customer Relationship Management"
+          description="客戶關係管理"
           disabled
         />
         
         <menu-tile 
           title="TMS" 
           icon="car"
-          description="Transport Management System"
+          description="運輸管理系統"
           to="/tms"
         />
         
         <menu-tile 
           title="WMS" 
           icon="cube"
-          description="Warehouse Management System"
+          description="倉儲管理系統"
           to="/wms"
         />
         
         <menu-tile 
           title="Finance" 
           icon="cash"
-          description="Financial Management"
+          description="財務管理"
           disabled
         />
       </div>
       
       <div class="quick-stats">
-        <h3 class="section-title">Today's Overview</h3>
+        <h3 class="section-title">今日概覽</h3>
         <ion-card>
           <ion-card-content>
             <div class="stat-grid">
               <div class="stat-item">
                 <div class="stat-value">12</div>
-                <div class="stat-label">Deliveries</div>
+                <div class="stat-label">配送</div>
               </div>
               <div class="stat-item">
                 <div class="stat-value">54</div>
-                <div class="stat-label">Orders</div>
+                <div class="stat-label">訂單</div>
               </div>
               <div class="stat-item">
                 <div class="stat-value">7</div>
-                <div class="stat-label">New Orders</div>
+                <div class="stat-label">新訂單</div>
               </div>
               <div class="stat-item">
                 <div class="stat-value">98%</div>
-                <div class="stat-label">Inventory</div>
+                <div class="stat-label">庫存</div>
               </div>
             </div>
           </ion-card-content>
