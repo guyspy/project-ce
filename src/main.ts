@@ -30,7 +30,7 @@ import '@ionic/vue/css/display.css';
 import '@ionic/vue/css/palettes/dark.class.css';
 
 /* 自定義樣式 */
-import './assets/style.css';
+// 移除自定義樣式，使用 Ionic 默認樣式
 
 const router = createRouter({
   history: createWebHistory(),

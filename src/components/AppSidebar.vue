@@ -11,14 +11,16 @@
       </ion-toolbar>
     </ion-header>
     <ion-content>
-      <div class="user-profile">
-        <div class="avatar">
-          <ion-icon :icon="personCircleOutline" class="avatar-icon"></ion-icon>
-        </div>
-        <h2 class="user-name">{{ user?.name }}</h2>
-        <p class="user-info">{{ user?.department }}</p>
-        <p class="user-role">{{ user?.role }}</p>
-      </div>
+      <ion-item lines="none">
+        <ion-avatar slot="start">
+          <ion-icon :icon="personCircleOutline" style="font-size: 2rem"></ion-icon>
+        </ion-avatar>
+        <ion-label>
+          <h2>{{ user?.name }}</h2>
+          <p>{{ user?.department }}</p>
+          <p>{{ user?.role }}</p>
+        </ion-label>
+      </ion-item>
       
       <ion-list lines="none">
         <ion-item button router-link="/home" @click="$emit('close')">
@@ -201,46 +203,6 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
-.user-profile {
-  padding: 2rem 1rem;
-  text-align: center;
-  background-color: var(--ion-color-light);
-}
-
-.avatar {
-  margin: 0 auto 1rem;
-}
-
-.avatar-icon {
-  font-size: 5rem;
-  color: var(--ion-color-primary);
-}
-
-.user-name {
-  margin: 0;
-  font-size: 1.2rem;
-  font-weight: 600;
-}
-
-.user-info {
-  margin: 0.5rem 0 0.25rem;
-  font-size: 0.9rem;
-  color: var(--ion-color-medium);
-}
-
-.user-role {
-  margin: 0;
-  font-size: 0.8rem;
-  color: var(--ion-color-primary);
-  font-weight: 500;
-}
-
-.app-info {
-  padding: 1rem;
-  text-align: center;
-  font-size: 0.8rem;
-  color: var(--ion-color-medium);
-  margin-top: auto;
-}
+<style>
+/* 使用 Ionic 默認樣式 */
 </style>

@@ -186,8 +186,5 @@ export default defineComponent({
 </script>
 
 <style>
-/* (Optional) This is added to prevent the flashing that happens when toggling between palettes */
-ion-item {
-  --transition: none;
-}
+/* 保持最小化設置，使用 Ionic 默認樣式 */
 </style>
