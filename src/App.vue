@@ -59,17 +59,23 @@ export default defineComponent({
     
     // 更新深色模式設定
     const updateTheme = () => {
-      document.documentElement.classList.remove('ios', 'md');
+      // 首先移除所有相關的類
+      document.documentElement.classList.remove('ios', 'md', 'dark');
       
       // 設置平台樣式 (預設使用 iOS)
       const platform = localStorage.getItem('platform') || 'ios';
       document.documentElement.classList.add(platform);
       
-      // 設置深色/淺色模式
+      // 設置深色/淺色模式 (僅在 HTML 根元素上添加)
       if (isDarkMode.value) {
         document.documentElement.classList.add('dark');
+        // 設置 CSS 變量以確保顏色正確
+        document.documentElement.style.setProperty('--ion-background-color', 'var(--ion-background-color-dark)');
+        document.documentElement.style.setProperty('--ion-text-color', 'var(--ion-text-color-dark)');
       } else {
-        document.documentElement.classList.remove('dark');
+        // 恢復淺色模式的 CSS 變量
+        document.documentElement.style.removeProperty('--ion-background-color');
+        document.documentElement.style.removeProperty('--ion-text-color');
       }
     };
     
