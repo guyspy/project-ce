@@ -4,7 +4,7 @@
       <ion-toolbar>
         <ion-title>選單</ion-title>
         <ion-buttons slot="end">
-          <ion-button @click="$emit('close')">
+          <ion-button @click="closeMenu()">
             <ion-icon :icon="closeOutline" slot="icon-only"></ion-icon>
           </ion-button>
         </ion-buttons>
@@ -70,6 +70,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { menuController } from '@ionic/vue';
 import {
   IonMenu,
   IonHeader,
@@ -125,6 +126,11 @@ export default defineComponent({
   setup(props, { emit }) {
     const router = useRouter();
     const { user } = authInstance;
+    
+    const closeMenu = async () => {
+      await menuController.close();
+      emit('close');
+    };
     const isThemeSettingsOpen = ref(false);
     
     // 手動實現登出功能
@@ -175,6 +181,7 @@ export default defineComponent({
       handleLogout,
       goToSettings,
       showAbout,
+      closeMenu,
       closeOutline,
       homeOutline,
       personCircleOutline,
