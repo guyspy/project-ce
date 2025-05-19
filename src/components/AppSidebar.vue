@@ -1,12 +1,10 @@
 <template>
-  <ion-menu side="end" content-id="main-content" :is-open="isOpen" @ionDidClose="$emit('close')">
+  <ion-menu side="end" content-id="main-content" menu-id="main-menu" :is-open="isOpen" @ionDidClose="$emit('close')">
     <ion-header>
       <ion-toolbar>
         <ion-title>選單</ion-title>
         <ion-buttons slot="end">
-          <ion-button id="close-menu">
-            <ion-icon :icon="closeOutline" slot="icon-only"></ion-icon>
-          </ion-button>
+          <ion-menu-button autoHide="false"></ion-menu-button>
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
@@ -129,18 +127,9 @@ export default defineComponent({
     const router = useRouter();
     const { user } = authInstance;
     
-    // 添加關閉菜單的事件監聽
-    const setupCloseMenuEvent = () => {
-      setTimeout(() => {
-        const closeBtn = document.getElementById('close-menu');
-        if (closeBtn) {
-          closeBtn.addEventListener('click', async () => {
-            console.log('Close button clicked');
-            await menuController.close('end');
-            emit('close');
-          });
-        }
-      }, 100);
+    // 關閉菜單的簡單方法
+    const closeMenu = async () => {
+      await menuController.close();
     };
     const isThemeSettingsOpen = ref(false);
     
