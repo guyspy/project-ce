@@ -21,16 +21,19 @@ import '@ionic/vue/css/flex-utils.css';
 import '@ionic/vue/css/display.css';
 
 /**
- * Ionic Dark Palette
+ * Ionic Dark Palette and Custom Theme
  * -----------------------------------------------------
  * For more information, please see:
  * https://ionicframework.com/docs/theming/dark-mode
+ * https://ionicframework.com/docs/theming/css-variables
  */
 
 import '@ionic/vue/css/palettes/dark.class.css';
 
-/* 自定義樣式 */
-// 移除自定義樣式，使用 Ionic 默認樣式
+/* 導入自定義樣式 */
+import './theme/variables.css';
+import './assets/theme.css';
+import './assets/style.css';
 
 const router = createRouter({
   history: createWebHistory(),

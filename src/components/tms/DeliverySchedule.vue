@@ -1,40 +1,39 @@
 <template>
-  <div class="delivery-schedule">
-    <div class="schedule-header">
-      <h3 class="section-title">今日配送任務</h3>
+  <div>
+    <div class="ion-padding-bottom ion-justify-content-between" style="display: flex; align-items: center;">
+      <h3 class="ion-no-margin">今日配送任務</h3>
       <ion-button size="small" fill="clear">
         <ion-icon slot="icon-only" :icon="filterOutline"></ion-icon>
       </ion-button>
     </div>
 
-    <ion-list>
-      <ion-item v-for="delivery in deliveries" :key="delivery.id" button detail class="delivery-item">
-        <ion-icon :icon="getStatusIcon(delivery.status)" slot="start" :color="getStatusColor(delivery.status)"></ion-icon>
-        <ion-label>
-          <h2>{{ delivery.orderNumber }}</h2>
-          <h3>{{ delivery.customer }}</h3>
-          <p>{{ delivery.products }}</p>
-          <p>
-            <ion-text :color="getStatusColor(delivery.status)">{{ getStatusText(delivery.status) }}</ion-text>
-            <ion-text color="medium"> • {{ delivery.time }}</ion-text>
-          </p>
-        </ion-label>
-      </ion-item>
+    <ion-list>    <ion-item v-for="delivery in deliveries" :key="delivery.id" button detail lines="full" class="ion-margin-bottom">
+      <ion-icon :icon="getStatusIcon(delivery.status)" slot="start" :color="getStatusColor(delivery.status)" class="ion-padding-start"></ion-icon>
+      <ion-label>
+        <h2>{{ delivery.orderNumber }}</h2>
+        <h3>{{ delivery.customer }}</h3>
+        <p>{{ delivery.products }}</p>
+        <p>
+          <ion-text :color="getStatusColor(delivery.status)">{{ getStatusText(delivery.status) }}</ion-text>
+          <ion-text color="medium"> • {{ delivery.time }}</ion-text>
+        </p>
+      </ion-label>
+    </ion-item>
     </ion-list>
     
-    <ion-card class="delivery-map">
+    <ion-card class="ion-margin-top">
       <ion-card-header>
         <ion-card-title>配送路線</ion-card-title>
       </ion-card-header>
       <ion-card-content>
-        <div class="map-placeholder">
-          <ion-icon :icon="mapOutline" class="map-icon"></ion-icon>
+        <div class="ion-text-center ion-padding ion-justify-content-center ion-align-items-center" style="height: 200px; background: var(--ion-color-step-50, var(--ion-background-color)); border-radius: 8px; display: flex; flex-direction: column;">
+          <ion-icon :icon="mapOutline" style="font-size: 3rem; color: var(--ion-color-medium); margin-bottom: 0.5rem;"></ion-icon>
           <p>地圖視圖將顯示配送路線</p>
         </div>
       </ion-card-content>
     </ion-card>
     
-    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab vertical="bottom" horizontal="end">
       <ion-fab-button>
         <ion-icon :icon="add"></ion-icon>
       </ion-fab-button>
@@ -173,47 +172,6 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.delivery-schedule {
-  position: relative;
-}
-
-.schedule-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.5rem;
-}
-
-.section-title {
-  margin: 0;
-}
-
-.delivery-item {
-  --padding-start: 16px;
-  --inner-padding-end: 16px;
-  margin-bottom: 8px;
-  border-radius: 8px;
-  --background: var(--ion-color-light);
-}
-
-.delivery-map {
-  margin-top: 24px;
-  border-radius: 12px;
-}
-
-.map-placeholder {
-  height: 200px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: var(--ion-color-light);
-  border-radius: 8px;
-}
-
-.map-icon {
-  font-size: 3rem;
-  color: var(--ion-color-medium);
-  margin-bottom: 0.5rem;
-}
+/* Ionic handles most styling through its built-in CSS variables */
+/* For platform-specific and theme-specific styles, we can rely on Ionic's CSS variables */
 </style>

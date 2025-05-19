@@ -1,7 +1,7 @@
 <template>
   <app-layout title="TMS 運輸管理">
-    <div class="tms-content">
-      <ion-segment v-model="selectedSegment" class="segment-control">
+    <ion-content class="ion-padding">
+      <ion-segment v-model="selectedSegment">
         <ion-segment-button value="deliveries">
           <ion-label>配送任務</ion-label>
         </ion-segment-button>
@@ -12,14 +12,13 @@
       
       <delivery-schedule v-if="selectedSegment === 'deliveries'" />
       <fleet-management v-else />
-
-    </div>
+    </ion-content>
   </app-layout>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue';
-import { IonSegment, IonSegmentButton, IonLabel } from '@ionic/vue';
+import { IonSegment, IonSegmentButton, IonLabel, IonContent } from '@ionic/vue';
 import { useRouter } from 'vue-router';
 import AppLayout from '../components/AppLayout.vue';
 import DeliverySchedule from '../components/tms/DeliverySchedule.vue';
@@ -34,7 +33,8 @@ export default defineComponent({
     FleetManagement,
     IonSegment,
     IonSegmentButton,
-    IonLabel
+    IonLabel,
+    IonContent
   },
   setup() {
     const router = useRouter();
@@ -55,11 +55,5 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.tms-content {
-  padding: 16px;
-}
-
-.segment-control {
-  margin-bottom: 16px;
-}
+/* Using Ionic utility classes instead of custom CSS */
 </style>

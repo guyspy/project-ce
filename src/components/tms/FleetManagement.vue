@@ -1,13 +1,13 @@
 <template>
-  <div class="fleet-management">
-    <div class="section-header">
-      <h3 class="section-title">車輛管理</h3>
+  <div>
+    <div class="ion-padding-bottom ion-justify-content-between ion-align-items-center ion-display-flex">
+      <h3 class="ion-no-margin">車輛管理</h3>
       <ion-button size="small" fill="clear">
         <ion-icon slot="icon-only" :icon="optionsOutline"></ion-icon>
       </ion-button>
     </div>
     
-    <ion-segment v-model="selectedFilter" class="filter-segment">
+    <ion-segment v-model="selectedFilter" >
       <ion-segment-button value="all">
         <ion-label>全部</ion-label>
       </ion-segment-button>
@@ -20,8 +20,8 @@
     </ion-segment>
     
     <ion-list>
-      <ion-item v-for="vehicle in filteredVehicles" :key="vehicle.id" button detail class="vehicle-item">
-        <ion-icon :icon="carSportOutline" slot="start" :color="getStatusColor(vehicle.status)"></ion-icon>
+      <ion-item v-for="vehicle in filteredVehicles" :key="vehicle.id" button detail lines="full" class="ion-margin-bottom ion-no-padding" style="--background: var(--ion-card-background); --padding-start: 16px; --inner-padding-end: 16px;">
+        <ion-icon :icon="carSportOutline" slot="start" :color="getStatusColor(vehicle.status)" class="ion-padding-start"></ion-icon>
         <ion-label>
           <h2>{{ vehicle.model }}</h2>
           <h3>{{ vehicle.plateNumber }}</h3>
@@ -34,13 +34,13 @@
       </ion-item>
     </ion-list>
     
-    <ion-card class="maintenance-card">
+    <ion-card class="ion-margin-top">
       <ion-card-header>
         <ion-card-title>維護保養計劃</ion-card-title>
       </ion-card-header>
       <ion-card-content>
         <ion-list lines="none">
-          <ion-item v-for="maintenance in maintenanceSchedule" :key="maintenance.id">
+          <ion-item v-for="maintenance in maintenanceSchedule" :key="maintenance.id" class="ion-no-padding">
             <ion-icon :icon="buildOutline" slot="start" color="primary"></ion-icon>
             <ion-label>
               <h3>{{ maintenance.vehicle }}</h3>
@@ -230,35 +230,5 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.fleet-management {
-  position: relative;
-}
-
-.section-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-
-.section-title {
-  margin: 0;
-}
-
-.filter-segment {
-  margin-bottom: 1rem;
-}
-
-.vehicle-item {
-  --padding-start: 16px;
-  --inner-padding-end: 16px;
-  margin-bottom: 8px;
-  border-radius: 8px;
-  --background: var(--ion-color-light);
-}
-
-.maintenance-card {
-  margin-top: 24px;
-  border-radius: 12px;
-}
+/* Using Ionic utility classes instead of custom CSS */
 </style>

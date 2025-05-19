@@ -2,13 +2,13 @@
   <ion-page>
     <ion-content class="ion-padding">
       <div class="splash-container">
-        <div class="logo-container">
-          <ion-icon :icon="bulbOutline" class="logo-icon"></ion-icon>
-          <h1 class="company-name">LumiBright</h1>
-          <p class="tagline">Illuminating Your Business</p>
+        <div class="ion-margin-bottom ion-padding">
+          <ion-icon :icon="bulbOutline" class="splash-icon"></ion-icon>
+          <h1 class="splash-title">LumiBright</h1>
+          <p class="splash-subtitle ion-no-margin">Illuminating Your Business</p>
         </div>
-        <ion-progress-bar type="indeterminate"></ion-progress-bar>
-        <p class="loading-text">{{ loadingMessage }}</p>
+        <ion-progress-bar type="indeterminate" class="splash-progress"></ion-progress-bar>
+        <p class="ion-text-medium ion-margin-top">{{ loadingMessage }}</p>
       </div>
     </ion-content>
   </ion-page>
@@ -87,37 +87,28 @@ export default defineComponent({
   text-align: center;
 }
 
-.logo-container {
-  margin-bottom: 2rem;
-}
-
-.logo-icon {
+.splash-icon {
   font-size: 5rem;
   color: var(--ion-color-primary);
 }
 
-.company-name {
+.splash-title {
   font-size: 2.5rem;
   font-weight: 700;
   margin: 0.5rem 0;
   background: linear-gradient(to right, var(--ion-color-primary), var(--ion-color-secondary));
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.tagline {
+.splash-subtitle {
   font-size: 1.2rem;
   color: var(--ion-color-medium);
-  margin: 0;
 }
 
-ion-progress-bar {
+.splash-progress {
   width: 80%;
   margin: 1rem 0;
-}
-
-.loading-text {
-  color: var(--ion-color-medium);
-  font-size: 0.9rem;
 }
 </style>

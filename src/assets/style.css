@@ -1,99 +1,44 @@
-/* Global application styles */
-:root {
-  /* Light color scheme */
-  --light-bg: #f4f5f8;
-  --light-text: #121212;
-  --light-border: #d7d8da;
-  --light-card-bg: #ffffff;
-  
-  /* Dark color scheme */
-  --dark-bg: #121212;
-  --dark-text: #f4f5f8;
-  --dark-border: #383a3e;
-  --dark-card-bg: #1e1e1e;
+/* Global application styles - optimized to use Ionic's built-in utilities */
 
-  /* Brand colors */
-  --brand-blue: #3880ff;
-  --brand-yellow: #ffc409;
-  --brand-red: #eb445a;
-  --brand-green: #2dd36f;
-  --brand-gray: #92949c;
+/* 
+ * 移除了自定義顏色變量，改用 Ionic 標準變量:
+ * 淺色模式: 使用 var(--ion-color-light), var(--ion-text-color) 等
+ * 深色模式: 由 .ion-palette-dark 自動處理
+ *
+ * 移除了大部分自定義工具類，改用 Ionic 內置工具類:
+ * - .ion-text-center 替代 .text-center
+ * - .ion-margin-top, .ion-padding-top 替代 .mt-*
+ * - .ion-margin-bottom, .ion-padding-bottom 替代 .mb-*
+ */
+
+/* 僅保留一些 Ionic 未提供的自定義工具類 */
+.margin-auto {
+  margin: auto;
 }
 
-/* Custom utility classes */
-.text-center {
-  text-align: center;
-}
-
-.full-width {
-  width: 100%;
-}
-
-.mt-1 { margin-top: 0.25rem; }
-.mt-2 { margin-top: 0.5rem; }
-.mt-3 { margin-top: 0.75rem; }
-.mt-4 { margin-top: 1rem; }
-
-.mb-1 { margin-bottom: 0.25rem; }
-.mb-2 { margin-bottom: 0.5rem; }
-.mb-3 { margin-bottom: 0.75rem; }
-.mb-4 { margin-bottom: 1rem; }
-
-/* Company logo colors */
+/* Company logo colors - 使用 Ionic 標準顏色變量 */
 .logo-primary {
-  color: var(--brand-blue);
+  color: var(--ion-color-primary);
 }
 
 .logo-secondary {
-  color: var(--brand-yellow);
+  color: var(--ion-color-secondary);
 }
 
-/* Title styles */
-.page-title {
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin-bottom: 1rem;
+/* 標題樣式可透過 Ionic 組件實現:
+ * - 使用 <ion-card-title> 等標準組件
+ * - 使用 class="ion-text-wrap ion-margin-bottom"
+ */
+
+/* 自定義漸變文字效果 - Ionic 未內置 */
+.gradient-text {
+  background: linear-gradient(to right, var(--ion-color-primary), var(--ion-color-secondary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.section-title {
-  font-size: 1.2rem;
-  font-weight: 500;
-  margin-bottom: 0.75rem;
-}
-
-/* Menu tile styling */
-.menu-tile {
-  border-radius: 12px;
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.menu-tile:active {
-  transform: scale(0.98);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-/* Form styling */
-ion-item.form-input {
-  --border-radius: 8px;
-  --border-width: 1px;
-  margin-bottom: 12px;
-}
-
-.auth-container {
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  justify-content: center;
-}
-
-/* Animation utilities */
+/* 特定的動畫效果 - Ionic 未內置 */
 .animate-pulse {
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
@@ -105,4 +50,29 @@ ion-item.form-input {
   50% {
     opacity: .7;
   }
+}
+
+/* 為登入頁面提供最小限度的全局樣式 */
+.auth-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: var(--ion-padding, 16px);
+}
+
+/* 改善表單元素的外觀 */
+ion-input, ion-textarea, ion-select {
+  --padding-start: 8px;
+}
+
+/* 卡片樣式的一致性 */
+ion-card {
+  border-radius: 12px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* 確保在深色模式下內容區域的可讀性 */
+.ion-palette-dark ion-content {
+  --background: var(--ion-background-color);
 }

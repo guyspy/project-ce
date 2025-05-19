@@ -1,32 +1,31 @@
 /* 
- * 主題設定 CSS
- * 基於 Ionic 推薦的深色模式實現方法
- * 參考: https://ionicframework.com/docs/theming/dark-mode
+ * 主題設定補充 CSS
+ * 主要設定已移至 src/theme/variables.css
  */
-
-/* 使用類別方式切換深色模式 */
-@import '@ionic/vue/css/palettes/dark.class.css';
-
-/* 這些設定會適用於淺色模式（默認模式）*/
-:root {
-  --ion-item-border-color: var(--ion-background-color-step-200);
-}
-
-/* 為 iOS 模式設定特定的背景色和項目背景色 */
-:root.ios {
-  --ion-background-color: var(--ion-background-color-step-50);
-  --ion-toolbar-background: var(--ion-background-color);
-  --ion-item-background: var(--ion-background-color);
-}
-
-/* 為 Android (Material Design) 模式設定特定的背景色和項目背景色 */
-:root.md {
-  --ion-background-color: var(--ion-background-color-step-100);
-  --ion-toolbar-background: var(--ion-background-color);
-  --ion-item-background: var(--ion-background-color);
-}
 
 /* 防止在模式切換時閃爍 */
 ion-item {
   --transition: none;
+}
+
+/* 確保背景轉換平滑 */
+body, ion-content, ion-app {
+  transition: background-color 0.25s ease;
+}
+
+/* 確保文本顏色轉換平滑 */
+ion-label, ion-text, h1, h2, h3, h4, h5, h6, p, span {
+  transition: color 0.25s ease;
+}
+
+/* 觸摸反饋效果 */
+.ion-activatable {
+  position: relative;
+  overflow: hidden;
+}
+
+/* 改進 iOS 平台上的外觀 */
+:root.ios ion-header.ion-no-border ion-toolbar {
+  --background: transparent;
+  --border-color: transparent;
 }

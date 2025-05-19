@@ -10,7 +10,7 @@
     </ion-header>
     <ion-content>
       <ion-item lines="none">
-        <ion-icon :icon="personCircleOutline" slot="start" style="font-size: 2rem"></ion-icon>
+        <ion-icon :icon="personCircleOutline" slot="start" class="profile-icon"></ion-icon>
         <ion-label>
           <h2>{{ user?.name }}</h2>
           <p>{{ user?.department }}</p>
@@ -58,8 +58,10 @@
         </ion-item>
       </ion-list>
       
-      <div class="app-info">
-        <p>LumiBright ERP v1.0.0</p>
+      <div class="ion-text-center ion-padding">
+        <ion-text color="medium">
+          <small>LumiBright ERP v1.0.0</small>
+        </ion-text>
       </div>
     </ion-content>
   </ion-menu>
@@ -197,6 +199,9 @@ export default defineComponent({
 });
 </script>
 
-<style>
-/* 使用 Ionic 默認樣式 */
+<style scoped>
+/* Use Ionic default styles with minimal customization */
+.profile-icon {
+  font-size: 2rem;
+}
 </style>

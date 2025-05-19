@@ -1,36 +1,46 @@
 <template>
-  <div class="inventory-management">
-    <div class="section-header">
-      <h3 class="section-title">庫存狀態</h3>
+  <div>
+    <div class="ion-padding-bottom ion-justify-content-between ion-align-items-center ion-display-flex">
+      <h3 class="ion-no-margin">庫存狀態</h3>
       <ion-button size="small" fill="clear">
         <ion-icon slot="icon-only" :icon="searchOutline"></ion-icon>
       </ion-button>
     </div>
     
-    <ion-card class="status-card">
+    <ion-card class="ion-margin-bottom">
       <ion-card-content>
-        <div class="status-grid">
-          <div class="status-item">
-            <div class="status-value">1,248</div>
-            <div class="status-label">總SKU數</div>
-          </div>
-          <div class="status-item">
-            <div class="status-value">36</div>
-            <div class="status-label">低庫存</div>
-          </div>
-          <div class="status-item">
-            <div class="status-value">98.2%</div>
-            <div class="status-label">可用率</div>
-          </div>
-          <div class="status-item">
-            <div class="status-value">87</div>
-            <div class="status-label">需要補貨</div>
-          </div>
-        </div>
+        <ion-grid class="ion-no-padding">
+          <ion-row>
+            <ion-col size="6">
+              <div class="ion-text-center ion-padding-vertical">
+                <div class="ion-text-primary status-value">1,248</div>
+                <div class="ion-text-medium status-label">總SKU數</div>
+              </div>
+            </ion-col>
+            <ion-col size="6">
+              <div class="ion-text-center ion-padding-vertical">
+                <div class="ion-text-primary status-value">36</div>
+                <div class="ion-text-medium status-label">低庫存</div>
+              </div>
+            </ion-col>
+            <ion-col size="6">
+              <div class="ion-text-center ion-padding-vertical">
+                <div class="ion-text-primary status-value">98.2%</div>
+                <div class="ion-text-medium status-label">可用率</div>
+              </div>
+            </ion-col>
+            <ion-col size="6">
+              <div class="ion-text-center ion-padding-vertical">
+                <div class="ion-text-primary status-value">87</div>
+                <div class="ion-text-medium status-label">需要補貨</div>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
       </ion-card-content>
     </ion-card>
     
-    <ion-segment v-model="selectedCategory" class="category-segment">
+    <ion-segment v-model="selectedCategory" mode="ios" class="ion-margin-bottom">
       <ion-segment-button value="all">
         <ion-label>全部</ion-label>
       </ion-segment-button>
@@ -43,8 +53,8 @@
     </ion-segment>
     
     <ion-list>
-      <ion-item v-for="product in filteredProducts" :key="product.id" button detail class="product-item">
-        <ion-thumbnail slot="start" class="product-thumbnail">
+      <ion-item v-for="product in filteredProducts" :key="product.id" button detail lines="full" class="ion-margin-bottom ion-no-padding" style="--background: var(--ion-card-background); --padding-start: 16px; --inner-padding-end: 16px;">
+        <ion-thumbnail slot="start" class="ion-align-items-center ion-justify-content-center product-thumbnail">
           <ion-icon :icon="getProductIcon(product.category)" class="product-icon"></ion-icon>
         </ion-thumbnail>
         <ion-label>
@@ -57,14 +67,14 @@
             <ion-text color="medium"> • 位置: {{ product.location }}</ion-text>
           </p>
         </ion-label>
-        <div slot="end" class="quantity-display">
+        <div slot="end" class="ion-text-center quantity-display">
           <div class="quantity">{{ product.quantity }}</div>
           <div class="unit">個</div>
         </div>
       </ion-item>
     </ion-list>
     
-    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab vertical="bottom" horizontal="end">
       <ion-fab-button>
         <ion-icon :icon="add"></ion-icon>
       </ion-fab-button>
@@ -88,7 +98,10 @@ import {
   IonCardContent,
   IonThumbnail,
   IonFab,
-  IonFabButton
+  IonFabButton,
+  IonGrid,
+  IonRow,
+  IonCol
 } from '@ionic/vue';
 import { 
   bulbOutline, 
@@ -124,7 +137,10 @@ export default defineComponent({
     IonCardContent,
     IonThumbnail,
     IonFab,
-    IonFabButton
+    IonFabButton,
+    IonGrid,
+    IonRow,
+    IonCol
   },
   setup() {
     const selectedCategory = ref('all');
@@ -237,76 +253,25 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.inventory-management {
-  position: relative;
-}
-
-.section-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-
-.section-title {
-  margin: 0;
-}
-
-.status-card {
-  margin-bottom: 1rem;
-  border-radius: 12px;
-}
-
-.status-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-}
-
-.status-item {
-  text-align: center;
-  padding: 0.5rem;
-}
-
 .status-value {
   font-size: 1.5rem;
   font-weight: 600;
-  color: var(--ion-color-primary);
 }
 
 .status-label {
   font-size: 0.9rem;
-  color: var(--ion-color-medium);
-}
-
-.category-segment {
-  margin-bottom: 1rem;
-}
-
-.product-item {
-  --padding-start: 16px;
-  --inner-padding-end: 16px;
-  margin-bottom: 8px;
-  border-radius: 8px;
-  --background: var(--ion-color-light);
 }
 
 .product-thumbnail {
   --size: 48px;
   background-color: var(--ion-color-primary-tint);
   display: flex;
-  align-items: center;
-  justify-content: center;
   border-radius: 8px;
 }
 
 .product-icon {
   font-size: 24px;
   color: var(--ion-color-primary);
-}
-
-.quantity-display {
-  text-align: center;
 }
 
 .quantity {

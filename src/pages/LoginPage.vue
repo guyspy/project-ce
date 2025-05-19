@@ -1,38 +1,56 @@
 <template>
   <ion-page>
-    <ion-content>
-      <div class="login-container">
-        <div class="logo-section">
-          <ion-icon :icon="bulbOutline" class="logo-icon"></ion-icon>
-          <h1 class="company-name">LumiBright</h1>
-          <p class="tagline">Illuminating Your Business</p>
-        </div>
-        
-        <form @submit.prevent="handleLogin" class="login-form">
-          <h2 class="login-title">員工登入</h2>
-          
-          <ion-item>
-            <ion-input label="使用者名稱" type="text" v-model="username" required></ion-input>
-          </ion-item>
-          
-          <ion-item>
-            <ion-input label="密碼" type="password" v-model="password" required></ion-input>
-          </ion-item>
-          
-          <ion-button type="submit" expand="block" :disabled="isLoading">
-            <ion-spinner v-if="isLoading" name="crescent"></ion-spinner>
-            <span v-else>登入</span>
-          </ion-button>
-          
-          <ion-text color="danger" v-if="error">
-            <p class="error-message">{{ error }}</p>
-          </ion-text>
-        </form>
-        
-        <div class="app-version">
-          <p>LumiBright ERP v1.0.0</p>
-        </div>
-      </div>
+    <ion-content class="ion-padding">
+      <ion-grid class="ion-height-full">
+        <ion-row class="ion-justify-content-center ion-align-items-center ion-height-full">
+          <ion-col size="12" size-sm="8" size-md="6" size-lg="4" class="ion-no-padding">
+            
+            <!-- Logo Section -->
+            <div class="ion-text-center ion-margin-top ion-margin-bottom">
+              <ion-icon :icon="bulbOutline" size="large" color="primary" class="logo-icon"></ion-icon>
+              <h1 class="gradient-text">LumiBright</h1>
+              <ion-text color="medium"><p>Illuminating Your Business</p></ion-text>
+            </div>
+            
+            <!-- Login Form -->
+            <ion-card>
+              <ion-card-header>
+                <ion-card-title class="ion-text-center">員工登入</ion-card-title>
+              </ion-card-header>
+              
+              <ion-card-content>
+                <form @submit.prevent="handleLogin">
+                  <ion-list class="ion-no-padding">
+                    <ion-item>
+                      <ion-input label="使用者名稱" v-model="username" required></ion-input>
+                    </ion-item>
+                    
+                    <ion-item>
+                      <ion-input label="密碼" type="password" v-model="password" required>
+                          <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+                      </ion-input>
+                    </ion-item>
+                    
+                    <ion-text color="danger" v-if="error" class="ion-text-center ion-padding-top">
+                      {{ error }}
+                    </ion-text>
+                  </ion-list>
+                  
+                  <ion-button type="submit" expand="block" class="ion-margin-top" :disabled="isLoading">
+                    <ion-spinner v-if="isLoading" name="crescent"></ion-spinner>
+                    <span v-else>登入</span>
+                  </ion-button>
+                </form>
+              </ion-card-content>
+            </ion-card>
+            
+            <!-- App Version -->
+            <div class="ion-text-center ion-padding-top">
+              <ion-text color="medium"><small>LumiBright ERP v1.0.0</small></ion-text>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </ion-content>
   </ion-page>
 </template>
@@ -48,7 +66,16 @@ import {
   IonButton,
   IonText,
   IonIcon,
-  IonSpinner
+  IonSpinner,
+  IonGrid,
+  IonRow,
+  IonCol,
+  IonCard,
+  IonCardHeader,
+  IonCardTitle,
+  IonCardContent,
+  IonList,
+  IonInputPasswordToggle
 } from '@ionic/vue';
 import { toastController } from '@ionic/vue';
 import { bulbOutline } from 'ionicons/icons';
@@ -66,7 +93,15 @@ export default defineComponent({
     IonButton,
     IonText,
     IonIcon,
-    IonSpinner
+    IonSpinner,
+    IonGrid,
+    IonRow,
+    IonCol,
+    IonCard,
+    IonCardHeader,
+    IonCardTitle,
+    IonCardContent,
+    IonList
   },
   setup() {
     const router = useRouter();
@@ -120,79 +155,26 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.login-container {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  padding: 2rem;
-}
+/* 大部分樣式已由 Ionic 的內置類處理 */
 
-.logo-section {
-  text-align: center;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-}
-
-.logo-icon {
-  font-size: 4rem;
-  color: var(--ion-color-primary);
-}
-
-.company-name {
+/* 自定義漸變文字效果 - 從全局樣式中引用 */
+.gradient-text {
   font-size: 2rem;
   font-weight: 700;
-  margin: 0.5rem 0;
   background: linear-gradient(to right, var(--ion-color-primary), var(--ion-color-secondary));
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
+  margin: 0.5rem 0;
 }
 
-.tagline {
-  font-size: 1rem;
-  color: var(--ion-color-medium);
-  margin: 0;
+/* 調整 logo 大小 */
+.logo-icon {
+  font-size: 4rem !important;
 }
 
-.login-form {
-  background: var(--ion-background-color);
-  border-radius: 10px;
-  padding: 1.5rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  margin-bottom: auto;
-}
-
-.login-title {
-  margin-top: 0;
-  margin-bottom: 1.5rem;
-  font-size: 1.5rem;
-  font-weight: 600;
-  text-align: center;
-  color: var(--ion-text-color);
-}
-
-.form-input {
-  --padding-start: 0;
-  margin-bottom: 1rem;
-  --border-color: var(--ion-color-medium);
-}
-
-.login-button {
-  margin-top: 1.5rem;
-  --border-radius: 8px;
-  height: 48px;
-}
-
-.error-message {
-  text-align: center;
-  font-size: 0.9rem;
-  margin-top: 1rem;
-}
-
-.app-version {
-  text-align: center;
-  margin-top: auto;
-  margin-bottom: 1rem;
-  color: var(--ion-color-medium);
-  font-size: 0.8rem;
+/* 使 grid 填滿整個高度 */
+.ion-height-full {
+  height: 100%;
 }
 </style>

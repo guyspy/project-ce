@@ -1,31 +1,131 @@
 /* Ionic Variables and Theming
  * ---------------------------------------------------------------
- * Any overrides to theme variables should be placed in this file.
- * For more information, please see:
+ * 統一的主題變量設定文件
  * http://ionicframework.com/docs/theming/
  */
 
-/* This sets a different item border color for the default theme on ios and md */
+/* Base colors for the app in light mode */
 :root {
+  /* Primary brand colors for lighting company */
+  --ion-color-primary: #3880ff;
+  --ion-color-primary-rgb: 56, 128, 255;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #3171e0;
+  --ion-color-primary-tint: #4c8dff;
+
+  /* Secondary color - warm yellow/amber for lighting */
+  --ion-color-secondary: #ffc409;
+  --ion-color-secondary-rgb: 255, 196, 9;
+  --ion-color-secondary-contrast: #000000;
+  --ion-color-secondary-contrast-rgb: 0, 0, 0;
+  --ion-color-secondary-shade: #e0ac08;
+  --ion-color-secondary-tint: #ffca22;
+  
+  /* Success, warning, danger colors */
+  --ion-color-success: #2dd36f;
+  --ion-color-success-rgb: 45, 211, 111;
+  --ion-color-success-contrast: #000000;
+  --ion-color-success-contrast-rgb: 0, 0, 0;
+  --ion-color-success-shade: #28ba62;
+  --ion-color-success-tint: #42d77d;
+  
+  --ion-color-warning: #ffc409;
+  --ion-color-warning-rgb: 255, 196, 9;
+  --ion-color-warning-contrast: #000000;
+  --ion-color-warning-contrast-rgb: 0, 0, 0;
+  --ion-color-warning-shade: #e0ac08;
+  --ion-color-warning-tint: #ffca22;
+  
+  --ion-color-danger: #eb445a;
+  --ion-color-danger-rgb: 235, 68, 90;
+  --ion-color-danger-contrast: #ffffff;
+  --ion-color-danger-contrast-rgb: 255, 255, 255;
+  --ion-color-danger-shade: #cf3c4f;
+  --ion-color-danger-tint: #ed576b;
+  
+  /* Medium, light, dark colors */
+  --ion-color-medium: #92949c;
+  --ion-color-medium-rgb: 146, 148, 156;
+  --ion-color-medium-contrast: #000000;
+  --ion-color-medium-contrast-rgb: 0, 0, 0;
+  --ion-color-medium-shade: #808289;
+  --ion-color-medium-tint: #9d9fa6;
+  
+  --ion-color-light: #f4f5f8;
+  --ion-color-light-rgb: 244, 245, 248;
+  --ion-color-light-contrast: #000000;
+  --ion-color-light-contrast-rgb: 0, 0, 0;
+  --ion-color-light-shade: #d7d8da;
+  --ion-color-light-tint: #f5f6f9;
+  
+  --ion-color-dark: #222428;
+  --ion-color-dark-rgb: 34, 36, 40;
+  --ion-color-dark-contrast: #ffffff;
+  --ion-color-dark-contrast-rgb: 255, 255, 255;
+  --ion-color-dark-shade: #1e2023;
+  --ion-color-dark-tint: #383a3e;
+
+  /* Item and background customizations */
   --ion-item-border-color: var(--ion-background-color-step-200);
+  
+  /* Safe area inset padding */
+  --ion-safe-area-top: env(safe-area-inset-top);
+  --ion-safe-area-bottom: env(safe-area-inset-bottom);
+  --ion-safe-area-left: env(safe-area-inset-left);
+  --ion-safe-area-right: env(safe-area-inset-right);
 }
 
-/* This sets a different background and item background for the default theme on ios */
+/* iOS platform specific customizations */
 :root.ios {
   --ion-background-color: var(--ion-background-color-step-50, #f2f2f6);
   --ion-toolbar-background: var(--ion-background-color);
-  --ion-item-background: #fff;
+  --ion-item-background: #ffffff;
+  --ion-card-background: #ffffff;
 }
 
-/* This sets a different background and item background for the default theme on md */
+/* Material Design platform specific customizations */
 :root.md {
   --ion-background-color: var(--ion-background-color-step-100, #f9f9f9);
   --ion-toolbar-background: var(--ion-background-color);
-  --ion-item-background: #fff;
+  --ion-item-background: #ffffff;
+  --ion-card-background: #ffffff;
 }
 
-/* This sets a different item background when dark mode is enabled on ios and md */
+/* Dark mode customizations */
 .ion-palette-dark.ios,
 .ion-palette-dark.md {
+  --ion-background-color: #121212;
+  --ion-toolbar-background: #1f1f1f;
   --ion-item-background: #1c1c1d;
+  --ion-card-background: #1e1e1e;
+  
+  /* Better contrast for text in dark mode */
+  --ion-text-color: #ffffff;
+  --ion-text-color-rgb: 255, 255, 255;
+  
+  /* Adjust border colors for dark mode */
+  --ion-border-color: #2c2c2c;
+  --ion-item-border-color: #2c2c2c;
+  
+  /* Adjusting step colors for dark mode */
+  --ion-background-color-step-50: #232323;
+  --ion-background-color-step-100: #2d2d2d;
+  --ion-background-color-step-150: #363636;
+  --ion-background-color-step-200: #414141;
+  --ion-background-color-step-250: #4d4d4d;
+  --ion-background-color-step-300: #595959;
+  --ion-background-color-step-350: #656565;
+  --ion-background-color-step-400: #717171;
+  --ion-background-color-step-450: #7d7d7d;
+  --ion-background-color-step-500: #898989;
+  --ion-background-color-step-550: #949494;
+  --ion-background-color-step-600: #a0a0a0;
+  --ion-background-color-step-650: #acacac;
+  --ion-background-color-step-700: #b8b8b8;
+  --ion-background-color-step-750: #c4c4c4;
+  --ion-background-color-step-800: #d0d0d0;
+  --ion-background-color-step-850: #dbdbdb;
+  --ion-background-color-step-900: #e7e7e7;
+  --ion-background-color-step-950: #f3f3f3;
 }

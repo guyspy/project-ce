@@ -1,36 +1,46 @@
 <template>
-  <div class="order-processing">
-    <div class="section-header">
-      <h3 class="section-title">訂單管理</h3>
+  <div>
+    <div class="ion-padding-bottom ion-justify-content-between ion-display-flex ion-align-items-center">
+      <h3 class="ion-no-margin">訂單管理</h3>
       <ion-button size="small" fill="clear">
         <ion-icon slot="icon-only" :icon="optionsOutline"></ion-icon>
       </ion-button>
     </div>
     
-    <ion-card class="summary-card">
+    <ion-card class="ion-margin-bottom">
       <ion-card-content>
-        <div class="summary-grid">
-          <div class="summary-item">
-            <div class="summary-value">54</div>
-            <div class="summary-label">進行中訂單</div>
-          </div>
-          <div class="summary-item">
-            <div class="summary-value">7</div>
-            <div class="summary-label">今日新增</div>
-          </div>
-          <div class="summary-item">
-            <div class="summary-value">12</div>
-            <div class="summary-label">待處理</div>
-          </div>
-          <div class="summary-item">
-            <div class="summary-value">35</div>
-            <div class="summary-label">已處理</div>
-          </div>
-        </div>
+        <ion-grid class="ion-no-padding">
+          <ion-row>
+            <ion-col size="6">
+              <div class="ion-text-center ion-padding-vertical">
+                <div class="ion-text-primary summary-value">54</div>
+                <div class="ion-text-medium summary-label">進行中訂單</div>
+              </div>
+            </ion-col>
+            <ion-col size="6">
+              <div class="ion-text-center ion-padding-vertical">
+                <div class="ion-text-primary summary-value">7</div>
+                <div class="ion-text-medium summary-label">今日新增</div>
+              </div>
+            </ion-col>
+            <ion-col size="6">
+              <div class="ion-text-center ion-padding-vertical">
+                <div class="ion-text-primary summary-value">12</div>
+                <div class="ion-text-medium summary-label">待處理</div>
+              </div>
+            </ion-col>
+            <ion-col size="6">
+              <div class="ion-text-center ion-padding-vertical">
+                <div class="ion-text-primary summary-value">35</div>
+                <div class="ion-text-medium summary-label">已處理</div>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
       </ion-card-content>
     </ion-card>
     
-    <ion-segment v-model="selectedTab" class="status-segment">
+    <ion-segment v-model="selectedTab" mode="ios" class="ion-margin-bottom">
       <ion-segment-button value="new">
         <ion-label>新訂單</ion-label>
       </ion-segment-button>
@@ -43,8 +53,8 @@
     </ion-segment>
     
     <ion-list>
-      <ion-item v-for="order in filteredOrders" :key="order.id" button detail class="order-item">
-        <ion-icon :icon="getStatusIcon(order.status)" slot="start" :color="getStatusColor(order.status)"></ion-icon>
+      <ion-item v-for="order in filteredOrders" :key="order.id" button detail lines="full" class="order-item ion-margin-bottom ion-no-padding">
+        <ion-icon :icon="getStatusIcon(order.status)" slot="start" :color="getStatusColor(order.status)" class="ion-padding-start"></ion-icon>
         <ion-label>
           <h2>{{ order.orderNumber }}</h2>
           <h3>{{ order.customer }}</h3>
@@ -53,13 +63,13 @@
             <ion-text color="medium"> • {{ order.date }}</ion-text>
           </p>
         </ion-label>
-        <div slot="end" class="price">
+        <div slot="end" class="order-price">
           {{ order.total }}
         </div>
       </ion-item>
     </ion-list>
     
-    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab vertical="bottom" horizontal="end">
       <ion-fab-button>
         <ion-icon :icon="add"></ion-icon>
       </ion-fab-button>
@@ -82,7 +92,10 @@ import {
   IonCard,
   IonCardContent,
   IonFab,
-  IonFabButton
+  IonFabButton,
+  IonGrid,
+  IonRow,
+  IonCol
 } from '@ionic/vue';
 import { 
   receiptOutline, 
@@ -117,7 +130,10 @@ export default defineComponent({
     IonCard,
     IonCardContent,
     IonFab,
-    IonFabButton
+    IonFabButton,
+    IonGrid,
+    IonRow,
+    IonCol
   },
   setup() {
     const selectedTab = ref('new');
@@ -231,63 +247,23 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.order-processing {
-  position: relative;
-}
-
-.section-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-
-.section-title {
-  margin: 0;
-}
-
-.summary-card {
-  margin-bottom: 1rem;
-  border-radius: 12px;
-}
-
-.summary-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-}
-
-.summary-item {
-  text-align: center;
-  padding: 0.5rem;
-}
-
 .summary-value {
   font-size: 1.5rem;
   font-weight: 600;
-  color: var(--ion-color-primary);
 }
 
 .summary-label {
   font-size: 0.9rem;
-  color: var(--ion-color-medium);
 }
 
-.status-segment {
-  margin-bottom: 1rem;
+.order-price {
+  font-weight: 600;
+  color: var(--ion-text-color);
 }
 
 .order-item {
+  --background: var(--ion-card-background);
   --padding-start: 16px;
   --inner-padding-end: 16px;
-  margin-bottom: 8px;
-  border-radius: 8px;
-  --background: var(--ion-color-light);
-}
-
-.price {
-  font-weight: 600;
-  color: var(--ion-color-dark);
-  font-size: 1rem;
 }
 </style>

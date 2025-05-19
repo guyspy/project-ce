@@ -1,7 +1,7 @@
 <template>
   <app-layout title="WMS 倉儲管理">
-    <div class="wms-content">
-      <ion-segment v-model="selectedSegment" class="segment-control">
+    <ion-content class="ion-padding">
+      <ion-segment v-model="selectedSegment" mode="ios" class="ion-margin-bottom">
         <ion-segment-button value="inventory">
           <ion-label>庫存管理</ion-label>
         </ion-segment-button>
@@ -12,13 +12,13 @@
       
       <inventory-management v-if="selectedSegment === 'inventory'" />
       <order-processing v-else />
-    </div>
+    </ion-content>
   </app-layout>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue';
-import { IonSegment, IonSegmentButton, IonLabel } from '@ionic/vue';
+import { IonSegment, IonSegmentButton, IonLabel, IonContent } from '@ionic/vue';
 import { useRouter } from 'vue-router';
 import AppLayout from '../components/AppLayout.vue';
 import InventoryManagement from '../components/wms/InventoryManagement.vue';
@@ -33,7 +33,8 @@ export default defineComponent({
     OrderProcessing,
     IonSegment,
     IonSegmentButton,
-    IonLabel
+    IonLabel,
+    IonContent
   },
   setup() {
     const router = useRouter();
@@ -54,11 +55,5 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.wms-content {
-  padding: 16px;
-}
-
-.segment-control {
-  margin-bottom: 16px;
-}
+/* Using Ionic utility classes instead of custom CSS */
 </style>

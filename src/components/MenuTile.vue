@@ -1,16 +1,22 @@
 <template>
-  <router-link :to="disabled ? '#' : to" class="menu-tile-link" :class="{ 'menu-tile-disabled': disabled }">
-    <div class="menu-tile">
-      <ion-icon :icon="getIconName()" class="tile-icon"></ion-icon>
-      <h3 class="tile-title">{{ title }}</h3>
-      <p class="tile-description">{{ description }}</p>
-    </div>
-  </router-link>
+  <ion-card class="menu-tile-card ion-activatable" :disabled="disabled" button @click="navigateTo">
+    <ion-ripple-effect></ion-ripple-effect>
+    <ion-card-content class="ion-text-center">
+      <ion-icon :icon="getIconName()" color="primary"></ion-icon>
+      <ion-text>
+        <h3 class="ion-no-margin ion-margin-bottom">{{ title }}</h3>
+      </ion-text>
+      <ion-text>
+        <p class="ion-no-margin">{{ description }}</p>
+      </ion-text>
+    </ion-card-content>
+  </ion-card>
 </template>
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
-import { IonIcon } from '@ionic/vue';
+import { IonCard, IonCardContent, IonIcon, IonText, IonRippleEffect } from '@ionic/vue';
+import { useRouter } from 'vue-router';
 import { 
   peopleOutline, 
   carOutline, 
@@ -23,7 +29,11 @@ import {
 export default defineComponent({
   name: 'MenuTile',
   components: {
-    IonIcon
+    IonCard,
+    IonCardContent,
+    IonIcon,
+    IonText,
+    IonRippleEffect
   },
   props: {
     title: {
@@ -48,6 +58,8 @@ export default defineComponent({
     }
   },
   setup(props) {
+    const router = useRouter();
+    
     const getIconName = () => {
       switch(props.icon) {
         case 'people': return peopleOutline;
@@ -60,61 +72,56 @@ export default defineComponent({
       }
     };
     
+    const navigateTo = () => {
+      if (!props.disabled && props.to !== '#') {
+        router.push(props.to);
+      }
+    };
+    
     return {
-      getIconName
+      getIconName,
+      navigateTo
     };
   }
 });
 </script>
 
 <style scoped>
-.menu-tile-link {
-  text-decoration: none;
-  color: inherit;
-}
+/* 使用 Ionic 內建的樣式，僅保留必要的自定義樣式 */
 
-.menu-tile {
-  background-color: var(--ion-color-light);
-  border-radius: 12px;
-  padding: 1.5rem 1rem;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  transition: all 0.2s ease;
-}
-
-.menu-tile:active {
-  transform: scale(0.98);
-  background-color: var(--ion-color-light-shade);
-}
-
-.tile-icon {
-  font-size: 2.5rem;
-  color: var(--ion-color-primary);
-  margin-bottom: 0.75rem;
-}
-
-.tile-title {
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin: 0 0 0.5rem;
-  color: var(--ion-color-dark);
-}
-
-.tile-description {
-  font-size: 0.8rem;
+ion-card.menu-tile-card {
   margin: 0;
-  color: var(--ion-color-medium);
+  height: 100%;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  overflow: hidden;
 }
 
-.menu-tile-disabled {
+ion-card[disabled] {
+  opacity: 0.6;
   pointer-events: none;
 }
 
-.menu-tile-disabled .menu-tile {
-  opacity: 0.6;
+ion-card.menu-tile-card:active {
+  transform: scale(0.98);
+}
+
+/* 圖標樣式 */
+ion-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.75rem;
+}
+
+/* 標題樣式 */
+h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem !important;
+}
+
+/* 描述文字樣式 */
+p {
+  font-size: 0.8rem;
 }
 </style>
