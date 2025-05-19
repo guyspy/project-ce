@@ -20,7 +20,7 @@
       </ion-toolbar>
     </ion-header>
     
-    <ion-content>
+    <ion-content :id="contentId">
       <slot></slot>
     </ion-content>
     
@@ -130,6 +130,7 @@ export default defineComponent({
     const route = useRoute();
     const isMenuOpen = ref(false);
     const isNotificationsOpen = ref(false);
+    const contentId = ref('main-content');
     
     // Sample notifications data
     const notifications = ref<Notification[]>([
@@ -198,6 +199,7 @@ export default defineComponent({
     };
     
     return {
+      contentId,
       isMenuOpen,
       isNotificationsOpen,
       toggleMenu,

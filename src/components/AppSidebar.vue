@@ -106,8 +106,8 @@ export default defineComponent({
   setup() {
     const { user, logout } = authInstance;
     
-    // Generate unique ID for the menu content
-    const contentId = computed(() => `menu-content-${Date.now()}`);
+    // Use the content ID from parent component
+    const contentId = ref('main-content');
     
     const handleLogout = async () => {
       const alert = await alertController.create({
