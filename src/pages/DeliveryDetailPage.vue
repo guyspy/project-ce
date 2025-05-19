@@ -521,20 +521,24 @@ export default defineComponent({
 .pulse-icon {
   animation: pulse 1.5s infinite;
   color: var(--ion-color-primary-contrast);
+  font-size: 16px; /* 增加圖標大小 */
 }
 
 @keyframes pulse {
   0% {
-    transform: scale(0.95);
-    opacity: 0.8;
+    transform: scale(0.9);
+    opacity: 0.7;
+    box-shadow: 0 0 0 0 rgba(var(--ion-color-primary-rgb), 0.5);
   }
   50% {
-    transform: scale(1.1);
+    transform: scale(1.2);
     opacity: 1;
+    box-shadow: 0 0 0 6px rgba(var(--ion-color-primary-rgb), 0);
   }
   100% {
-    transform: scale(0.95);
-    opacity: 0.8;
+    transform: scale(0.9);
+    opacity: 0.7;
+    box-shadow: 0 0 0 0 rgba(var(--ion-color-primary-rgb), 0);
   }
 }
 
