@@ -56,70 +56,51 @@
           <h3 class="ion-no-margin-top ion-margin-bottom">今日概覽</h3>
         </ion-text>
         
-        <ion-card>
-          <ion-card-content>
-            <ion-grid>
-              <ion-row>
-                <ion-col size="6" class="ion-text-center">
-                  <ion-text color="primary"><h2 class="ion-no-margin stats-value">12</h2></ion-text>
-                  <ion-text color="medium"><p class="ion-no-margin">配送</p></ion-text>
-                </ion-col>
-                
-                <ion-col size="6" class="ion-text-center">
-                  <ion-text color="primary"><h2 class="ion-no-margin stats-value">54</h2></ion-text>
-                  <ion-text color="medium"><p class="ion-no-margin">訂單</p></ion-text>
-                </ion-col>
-                
-                <ion-col size="6" class="ion-text-center">
-                  <ion-text color="primary"><h2 class="ion-no-margin stats-value">7</h2></ion-text>
-                  <ion-text color="medium"><p class="ion-no-margin">新訂單</p></ion-text>
-                </ion-col>
-                
-                <ion-col size="6" class="ion-text-center">
-                  <ion-text color="primary"><h2 class="ion-no-margin stats-value">98%</h2></ion-text>
-                  <ion-text color="medium"><p class="ion-no-margin">庫存</p></ion-text>
-                </ion-col>
-              </ion-row>
-            </ion-grid>
-          </ion-card-content>
-        </ion-card>
+        <stats-card :stats="homeStats" />
       </div>
     </ion-content>
   </app-layout>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted } from 'vue';
+import { defineComponent, onMounted, ref } from 'vue';
 import { 
   IonContent,
   IonGrid,
   IonRow,
   IonCol,
-  IonCard, 
-  IonCardContent,
   IonText
 } from '@ionic/vue';
 import { useRouter } from 'vue-router';
 import AppLayout from '../components/AppLayout.vue';
 import MenuTile from '../components/MenuTile.vue';
+import StatsCard from '../components/common/StatsCard.vue';
 import authInstance from '../composables/useAuth';
+import type { StatItem } from '../components/common/StatsCard.vue';
 
 export default defineComponent({
   name: 'HomePage',
   components: {
     AppLayout,
     MenuTile,
+    StatsCard,
     IonContent,
     IonGrid,
     IonRow,
     IonCol,
-    IonCard,
-    IonCardContent,
     IonText
   },
   setup() {
     const router = useRouter();
     const { user, isAuthenticated } = authInstance;
+    
+    // 定義首頁統計數據
+    const homeStats = ref<StatItem[]>([
+      { value: '12', label: '配送' },
+      { value: '54', label: '訂單' },
+      { value: '7', label: '新訂單' },
+      { value: '98%', label: '庫存' }
+    ]);
     
     onMounted(() => {
       if (!isAuthenticated.value) {
@@ -128,7 +109,8 @@ export default defineComponent({
     });
     
     return {
-      user
+      user,
+      homeStats
     };
   }
 });

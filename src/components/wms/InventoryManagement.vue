@@ -7,38 +7,7 @@
       </ion-button>
     </div>
     
-    <ion-card class="ion-margin-bottom">
-      <ion-card-content>
-        <ion-grid class="ion-no-padding">
-          <ion-row>
-            <ion-col size="6">
-              <div class="ion-text-center ion-padding-vertical">
-                <div class="ion-text-primary status-value">1,248</div>
-                <div class="ion-text-medium status-label">總SKU數</div>
-              </div>
-            </ion-col>
-            <ion-col size="6">
-              <div class="ion-text-center ion-padding-vertical">
-                <div class="ion-text-primary status-value">36</div>
-                <div class="ion-text-medium status-label">低庫存</div>
-              </div>
-            </ion-col>
-            <ion-col size="6">
-              <div class="ion-text-center ion-padding-vertical">
-                <div class="ion-text-primary status-value">98.2%</div>
-                <div class="ion-text-medium status-label">可用率</div>
-              </div>
-            </ion-col>
-            <ion-col size="6">
-              <div class="ion-text-center ion-padding-vertical">
-                <div class="ion-text-primary status-value">87</div>
-                <div class="ion-text-medium status-label">需要補貨</div>
-              </div>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card-content>
-    </ion-card>
+    <stats-card :stats="inventoryStats" />
     
     <ion-segment v-model="selectedCategory" mode="ios" class="ion-margin-bottom">
       <ion-segment-button value="all">
