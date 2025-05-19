@@ -7,38 +7,7 @@
       </ion-button>
     </div>
     
-    <ion-card class="ion-margin-bottom">
-      <ion-card-content>
-        <ion-grid class="ion-no-padding">
-          <ion-row>
-            <ion-col size="6">
-              <div class="ion-text-center ion-padding-vertical">
-                <div class="ion-text-primary summary-value">54</div>
-                <div class="ion-text-medium summary-label">進行中訂單</div>
-              </div>
-            </ion-col>
-            <ion-col size="6">
-              <div class="ion-text-center ion-padding-vertical">
-                <div class="ion-text-primary summary-value">7</div>
-                <div class="ion-text-medium summary-label">今日新增</div>
-              </div>
-            </ion-col>
-            <ion-col size="6">
-              <div class="ion-text-center ion-padding-vertical">
-                <div class="ion-text-primary summary-value">12</div>
-                <div class="ion-text-medium summary-label">待處理</div>
-              </div>
-            </ion-col>
-            <ion-col size="6">
-              <div class="ion-text-center ion-padding-vertical">
-                <div class="ion-text-primary summary-value">35</div>
-                <div class="ion-text-medium summary-label">已處理</div>
-              </div>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card-content>
-    </ion-card>
+    <stats-card :stats="orderStats" />
     
     <ion-segment v-model="selectedTab" mode="ios" class="ion-margin-bottom">
       <ion-segment-button value="new">
@@ -89,14 +58,11 @@ import {
   IonButton,
   IonSegment,
   IonSegmentButton,
-  IonCard,
-  IonCardContent,
   IonFab,
-  IonFabButton,
-  IonGrid,
-  IonRow,
-  IonCol
+  IonFabButton
 } from '@ionic/vue';
+import StatsCard from '../common/StatsCard.vue';
+import type { StatItem } from '../common/StatsCard.vue';
 import { 
   receiptOutline, 
   hourglassOutline, 
@@ -127,16 +93,20 @@ export default defineComponent({
     IonButton,
     IonSegment,
     IonSegmentButton,
-    IonCard,
-    IonCardContent,
     IonFab,
     IonFabButton,
-    IonGrid,
-    IonRow,
-    IonCol
+    StatsCard
   },
   setup() {
     const selectedTab = ref('new');
+    
+    // 定義訂單統計數據
+    const orderStats = ref<StatItem[]>([
+      { value: '54', label: '進行中訂單' },
+      { value: '7', label: '今日新增' },
+      { value: '12', label: '待處理' },
+      { value: '35', label: '已處理' }
+    ]);
     
     const orders = ref<Order[]>([
       {
@@ -240,7 +210,8 @@ export default defineComponent({
       getStatusColor,
       getStatusText,
       optionsOutline,
-      add
+      add,
+      orderStats
     };
   }
 });

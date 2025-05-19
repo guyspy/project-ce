@@ -216,7 +216,8 @@ export default defineComponent({
       getStockColor,
       getProductIcon,
       searchOutline,
-      add
+      add,
+      inventoryStats
     };
   }
 });
