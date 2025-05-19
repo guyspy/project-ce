@@ -52,7 +52,9 @@
           <div class="map-container">
             <div class="map-placeholder">
               <ion-icon :icon="locationOutline" class="map-icon"></ion-icon>
-              <p>地圖視圖加載中...</p>
+              <p>配送地址: {{ getDeliveryAddress() }}</p>
+              <p v-if="delivery">坐標位置: {{ getDeliveryCoordinates().lat.toFixed(4) }}, {{ getDeliveryCoordinates().lng.toFixed(4) }}</p>
+              <p class="map-note">點擊查看完整地圖</p>
             </div>
           </div>
         </ion-card-content>
@@ -147,6 +149,13 @@
               <ion-button fill="clear" slot="end">
                 <ion-icon slot="icon-only" :icon="callOutline"></ion-icon>
               </ion-button>
+            </ion-item>
+            <ion-item>
+              <ion-icon :icon="carOutline" slot="start" color="tertiary"></ion-icon>
+              <ion-label>
+                <h3>{{ getVehicleInfo() }}</h3>
+                <p>配送車輛</p>
+              </ion-label>
             </ion-item>
             <ion-item>
               <ion-icon :icon="businessOutline" slot="start" color="primary"></ion-icon>
