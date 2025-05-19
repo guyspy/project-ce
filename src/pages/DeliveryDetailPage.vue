@@ -155,6 +155,9 @@
               <ion-label>
                 <h3>{{ getVehicleInfo() }}</h3>
                 <p>配送車輛</p>
+                <div v-if="assignedVehicle" class="vehicle-status" :class="'vehicle-' + assignedVehicle.status">
+                  {{ {'available': '可用', 'in-use': '使用中', 'maintenance': '維修中'}[assignedVehicle.status] }}
+                </div>
               </ion-label>
             </ion-item>
             <ion-item>
@@ -500,11 +503,40 @@ export default defineComponent({
   justify-content: center;
   align-items: center;
   color: var(--ion-color-medium);
+  background-color: var(--ion-color-light-tint);
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+  box-shadow: inset 0 0 15px rgba(0,0,0,0.05);
 }
 
 .map-icon {
   font-size: 2.5rem;
   margin-bottom: 10px;
+  color: var(--ion-color-primary);
+  animation: pulse 1.5s infinite;
+}
+
+.map-note {
+  margin-top: 12px;
+  font-size: 14px;
+  color: var(--ion-color-primary);
+  font-weight: 500;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.6;
+    transform: scale(0.95);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 0.6;
+    transform: scale(0.95);
+  }
 }
 
 .timeline {
@@ -597,5 +629,29 @@ export default defineComponent({
 
 .footer-buttons {
   margin-bottom: 20px;
+}
+
+.vehicle-status {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.vehicle-available {
+  background-color: var(--ion-color-success-tint);
+  color: var(--ion-color-success-shade);
+}
+
+.vehicle-in-use {
+  background-color: var(--ion-color-primary-tint);
+  color: var(--ion-color-primary-shade);
+}
+
+.vehicle-maintenance {
+  background-color: var(--ion-color-warning-tint);
+  color: var(--ion-color-warning-shade);
 }
 </style>
