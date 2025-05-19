@@ -1,7 +1,7 @@
 <template>
   <div class="order-processing">
     <div class="section-header">
-      <h3 class="section-title">Order Management</h3>
+      <h3 class="section-title">訂單管理</h3>
       <ion-button size="small" fill="clear">
         <ion-icon slot="icon-only" :icon="optionsOutline"></ion-icon>
       </ion-button>
@@ -12,19 +12,19 @@
         <div class="summary-grid">
           <div class="summary-item">
             <div class="summary-value">54</div>
-            <div class="summary-label">Active Orders</div>
+            <div class="summary-label">進行中訂單</div>
           </div>
           <div class="summary-item">
             <div class="summary-value">7</div>
-            <div class="summary-label">New Today</div>
+            <div class="summary-label">今日新增</div>
           </div>
           <div class="summary-item">
             <div class="summary-value">12</div>
-            <div class="summary-label">Pending</div>
+            <div class="summary-label">待處理</div>
           </div>
           <div class="summary-item">
             <div class="summary-value">35</div>
-            <div class="summary-label">Processed</div>
+            <div class="summary-label">已處理</div>
           </div>
         </div>
       </ion-card-content>
@@ -32,13 +32,13 @@
     
     <ion-segment v-model="selectedTab" class="status-segment">
       <ion-segment-button value="new">
-        <ion-label>New</ion-label>
+        <ion-label>新訂單</ion-label>
       </ion-segment-button>
       <ion-segment-button value="processing">
-        <ion-label>Processing</ion-label>
+        <ion-label>處理中</ion-label>
       </ion-segment-button>
       <ion-segment-button value="shipped">
-        <ion-label>Shipped</ion-label>
+        <ion-label>已發貨</ion-label>
       </ion-segment-button>
     </ion-segment>
     
@@ -49,7 +49,7 @@
           <h2>{{ order.orderNumber }}</h2>
           <h3>{{ order.customer }}</h3>
           <p>
-            <ion-badge :color="getStatusColor(order.status)">{{ order.status }}</ion-badge>
+            <ion-badge :color="getStatusColor(order.status)">{{ getStatusText(order.status) }}</ion-badge>
             <ion-text color="medium"> • {{ order.date }}</ion-text>
           </p>
         </ion-label>
@@ -205,12 +205,24 @@ export default defineComponent({
       }
     };
     
+    const getStatusText = (status: string) => {
+      switch(status) {
+        case 'new': return '新訂單';
+        case 'processing': return '處理中';
+        case 'shipped': return '已發貨';
+        case 'delivered': return '已送達';
+        case 'cancelled': return '已取消';
+        default: return status;
+      }
+    };
+    
     return {
       selectedTab,
       orders,
       filteredOrders,
       getStatusIcon,
       getStatusColor,
+      getStatusText,
       optionsOutline,
       add
     };

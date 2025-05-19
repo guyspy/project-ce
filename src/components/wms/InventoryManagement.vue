@@ -1,7 +1,7 @@
 <template>
   <div class="inventory-management">
     <div class="section-header">
-      <h3 class="section-title">Inventory Status</h3>
+      <h3 class="section-title">庫存狀態</h3>
       <ion-button size="small" fill="clear">
         <ion-icon slot="icon-only" :icon="searchOutline"></ion-icon>
       </ion-button>
@@ -12,19 +12,19 @@
         <div class="status-grid">
           <div class="status-item">
             <div class="status-value">1,248</div>
-            <div class="status-label">Total SKUs</div>
+            <div class="status-label">總SKU數</div>
           </div>
           <div class="status-item">
             <div class="status-value">36</div>
-            <div class="status-label">Low Stock</div>
+            <div class="status-label">低庫存</div>
           </div>
           <div class="status-item">
             <div class="status-value">98.2%</div>
-            <div class="status-label">Availability</div>
+            <div class="status-label">可用率</div>
           </div>
           <div class="status-item">
             <div class="status-value">87</div>
-            <div class="status-label">Restock Needed</div>
+            <div class="status-label">需要補貨</div>
           </div>
         </div>
       </ion-card-content>
@@ -32,13 +32,13 @@
     
     <ion-segment v-model="selectedCategory" class="category-segment">
       <ion-segment-button value="all">
-        <ion-label>All</ion-label>
+        <ion-label>全部</ion-label>
       </ion-segment-button>
       <ion-segment-button value="bulbs">
-        <ion-label>Bulbs</ion-label>
+        <ion-label>燈泡</ion-label>
       </ion-segment-button>
       <ion-segment-button value="fixtures">
-        <ion-label>Fixtures</ion-label>
+        <ion-label>燈具</ion-label>
       </ion-segment-button>
     </ion-segment>
     
@@ -54,12 +54,12 @@
             <ion-badge :color="getStockColor(product.stockLevel)">
               {{ getStockStatus(product.stockLevel) }}
             </ion-badge>
-            <ion-text color="medium"> • Location: {{ product.location }}</ion-text>
+            <ion-text color="medium"> • 位置: {{ product.location }}</ion-text>
           </p>
         </ion-label>
         <div slot="end" class="quantity-display">
           <div class="quantity">{{ product.quantity }}</div>
-          <div class="unit">units</div>
+          <div class="unit">個</div>
         </div>
       </ion-item>
     </ion-list>
@@ -195,11 +195,11 @@ export default defineComponent({
     
     const getStockStatus = (level: string) => {
       switch(level) {
-        case 'high': return 'In Stock';
-        case 'medium': return 'Adequate';
-        case 'low': return 'Low Stock';
-        case 'out': return 'Out of Stock';
-        default: return 'Unknown';
+        case 'high': return '充足';
+        case 'medium': return '適量';
+        case 'low': return '庫存低';
+        case 'out': return '缺貨';
+        default: return '未知';
       }
     };
     

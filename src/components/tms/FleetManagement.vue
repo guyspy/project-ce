@@ -205,12 +205,22 @@ export default defineComponent({
       }
     };
     
+    const getStatusText = (status: string) => {
+      switch(status) {
+        case 'available': return '可用';
+        case 'in-use': return '使用中';
+        case 'maintenance': return '維修中';
+        default: return status;
+      }
+    };
+    
     return {
       selectedFilter,
       vehicles,
       filteredVehicles,
       maintenanceSchedule,
       getStatusColor,
+      getStatusText,
       carSportOutline,
       optionsOutline,
       buildOutline
