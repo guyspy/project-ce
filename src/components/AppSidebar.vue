@@ -4,7 +4,7 @@
       <ion-toolbar>
         <ion-title>選單</ion-title>
         <ion-buttons slot="end">
-          <ion-menu-button autoHide="false"></ion-menu-button>
+          <ion-menu-button :icon="closeOutline" autoHide="false"></ion-menu-button>
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
