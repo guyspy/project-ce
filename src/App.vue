@@ -23,24 +23,25 @@ export default defineComponent({
     IonRouterOutlet
   },
   setup() {
+    // 用來將 ion-palette-dark 類別添加或移除
+    const toggleDarkPalette = (shouldAdd: boolean) => {
+      document.documentElement.classList.toggle('ion-palette-dark', shouldAdd);
+    };
+    
     // 設定全域方法用於設定主題模式
     window.setAppTheme = (theme: 'dark' | 'light' | 'system') => {
       if (theme === 'system') {
-        // 移除 dark 類別，讓系統偏好決定
+        // 移除用戶設定，讓系統偏好決定
         localStorage.removeItem('theme');
-        document.documentElement.classList.remove('dark');
-        
-        // 使用系統偏好
+        // 檢查系統偏好
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        if (prefersDark) {
-          document.documentElement.classList.add('dark');
-        }
+        toggleDarkPalette(prefersDark);
       } else if (theme === 'dark') {
         localStorage.setItem('theme', 'dark');
-        document.documentElement.classList.add('dark');
+        toggleDarkPalette(true);
       } else {
         localStorage.setItem('theme', 'light');
-        document.documentElement.classList.remove('dark');
+        toggleDarkPalette(false);
       }
     };
     
@@ -60,26 +61,20 @@ export default defineComponent({
       // 設置深色/淺色模式
       const savedTheme = localStorage.getItem('theme');
       if (savedTheme === 'dark') {
-        document.documentElement.classList.add('dark');
+        toggleDarkPalette(true);
       } else if (savedTheme === 'light') {
-        document.documentElement.classList.remove('dark');
+        toggleDarkPalette(false);
       } else {
         // 使用系統偏好
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        if (prefersDark) {
-          document.documentElement.classList.add('dark');
-        }
+        toggleDarkPalette(prefersDark);
         
         // 監聽系統主題變化
         window.matchMedia('(prefers-color-scheme: dark)')
           .addEventListener('change', ({ matches }) => {
             // 只在沒有用戶設定的情況下跟隨系統
             if (!localStorage.getItem('theme')) {
-              if (matches) {
-                document.documentElement.classList.add('dark');
-              } else {
-                document.documentElement.classList.remove('dark');
-              }
+              toggleDarkPalette(matches);
             }
           });
       }

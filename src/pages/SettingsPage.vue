@@ -7,10 +7,20 @@
             <ion-label>外觀設定</ion-label>
           </ion-list-header>
           
-          <ion-item detail @click="openThemeModal">
+                  <ion-item>
             <ion-icon name="moon-outline" slot="start" class="settings-icon"></ion-icon>
+            <ion-label>深色模式</ion-label>
+            <ion-toggle 
+              :checked="currentTheme === 'dark'" 
+              @ionChange="toggleDarkMode($event)"
+              justify="space-between">
+            </ion-toggle>
+          </ion-item>
+          
+          <ion-item detail @click="openThemeModal">
+            <ion-icon name="color-palette-outline" slot="start" class="settings-icon"></ion-icon>
             <ion-label>
-              <h2>主題模式</h2>
+              <h2>主題選項</h2>
               <p>{{ themeText }}</p>
             </ion-label>
           </ion-item>
@@ -211,6 +221,14 @@ export default defineComponent({
       window.setAppTheme(theme);
     };
     
+    // 切換深色模式的開關
+    const toggleDarkMode = (event: CustomEvent) => {
+      const isDark = event.detail.checked;
+      const newTheme = isDark ? 'dark' : 'light';
+      currentTheme.value = newTheme;
+      window.setAppTheme(newTheme);
+    };
+    
     // 處理平台風格變更
     const handlePlatformChange = (event: CustomEvent) => {
       const platform = event.detail.value;
@@ -248,6 +266,7 @@ export default defineComponent({
       openPlatformModal,
       handleThemeChange,
       handlePlatformChange,
+      toggleDarkMode,
       showAbout,
       // 引入圖標
       moonOutline,
