@@ -1,5 +1,5 @@
 import { ref, computed } from 'vue';
-import { useRouter } from '@ionic/vue-router';
+import { useRouter } from 'vue-router';
 
 // Define user interface
 export interface User {
