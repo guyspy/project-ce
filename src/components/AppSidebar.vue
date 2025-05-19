@@ -95,7 +95,8 @@ import {
   IonLabel,
   IonIcon,
   IonButton,
-  IonButtons
+  IonButtons,
+  IonAvatar
 } from '@ionic/vue';
 import { alertController } from '@ionic/vue';
 import {
@@ -126,7 +127,8 @@ export default defineComponent({
     IonButtons,
     IonItemDivider,
     IonLabel,
-    IonIcon
+    IonIcon,
+    IonAvatar
   },
   props: {
     isOpen: {
