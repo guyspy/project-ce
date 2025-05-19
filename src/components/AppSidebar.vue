@@ -114,9 +114,16 @@ export default defineComponent({
     }
   },
   emits: ['close'],
-  setup() {
-    const { user, logout } = authInstance;
+  setup(props, { emit }) {
+    const router = useRouter();
+    const { user } = authInstance;
     const isThemeSettingsOpen = ref(false);
+    
+    // 手動實現登出功能
+    const logout = () => {
+      localStorage.removeItem('user');
+      router.replace('/login');
+    };
     
     const handleLogout = async () => {
       const alert = await alertController.create({
@@ -139,13 +146,13 @@ export default defineComponent({
     
     const goToSettings = () => {
       router.push('/settings');
-      props.onClose();
+      emit('close');
     };
     
     return {
       user,
       handleLogout,
-      openThemeSettings,
+      goToSettings,
       closeOutline,
       homeOutline,
       personCircleOutline,

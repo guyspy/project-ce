@@ -101,6 +101,7 @@ export default defineComponent({
   },
   setup() {
     const { user } = authInstance;
+    // 確保用戶已登入，否則會有 null 的問題
     const currentTheme = ref(localStorage.getItem('theme') || 'system');
     const currentPlatform = ref(localStorage.getItem('platform') || 'ios');
     
