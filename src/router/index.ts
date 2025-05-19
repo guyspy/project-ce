@@ -5,6 +5,7 @@ import HomePage from '../pages/HomePage.vue';
 import TMSPage from '../pages/TMSPage.vue';
 import WMSPage from '../pages/WMSPage.vue';
 import SettingsPage from '../pages/SettingsPage.vue';
+import DeliveryDetailPage from '../pages/DeliveryDetailPage.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -43,6 +44,12 @@ const routes: Array<RouteRecordRaw> = [
     path: '/settings',
     name: 'Settings',
     component: SettingsPage,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/delivery/:id',
+    name: 'DeliveryDetail',
+    component: DeliveryDetailPage,
     meta: { requiresAuth: true }
   }
 ];

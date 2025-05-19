@@ -9,18 +9,27 @@
 
     <stats-card :stats="deliveryStats" />
     
-    <ion-list>    <ion-item v-for="delivery in deliveries" :key="delivery.id" button detail lines="full" class="ion-margin-bottom">
-      <ion-icon :icon="getStatusIcon(delivery.status)" slot="start" :color="getStatusColor(delivery.status)" class="ion-padding-start"></ion-icon>
-      <ion-label>
-        <h2>{{ delivery.orderNumber }}</h2>
-        <h3>{{ delivery.customer }}</h3>
-        <p>{{ delivery.products }}</p>
-        <p>
-          <ion-text :color="getStatusColor(delivery.status)">{{ getStatusText(delivery.status) }}</ion-text>
-          <ion-text color="medium"> • {{ delivery.time }}</ion-text>
-        </p>
-      </ion-label>
-    </ion-item>
+    <ion-list>
+      <ion-item 
+        v-for="delivery in deliveries" 
+        :key="delivery.id" 
+        button 
+        detail 
+        lines="full" 
+        class="ion-margin-bottom"
+        @click="viewDeliveryDetail(delivery.id)"
+      >
+        <ion-icon :icon="getStatusIcon(delivery.status)" slot="start" :color="getStatusColor(delivery.status)" class="ion-padding-start"></ion-icon>
+        <ion-label>
+          <h2>{{ delivery.orderNumber }}</h2>
+          <h3>{{ delivery.customer }}</h3>
+          <p>{{ delivery.products }}</p>
+          <p>
+            <ion-text :color="getStatusColor(delivery.status)">{{ getStatusText(delivery.status) }}</ion-text>
+            <ion-text color="medium"> • {{ delivery.time }}</ion-text>
+          </p>
+        </ion-label>
+      </ion-item>
     </ion-list>
     
     <ion-card class="ion-margin-top">
@@ -45,6 +54,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { 
   IonList, 
   IonItem, 
@@ -98,6 +108,8 @@ export default defineComponent({
     StatsCard
   },
   setup() {
+    const router = useRouter();
+    
     // 定義配送統計數據
     const deliveryStats = ref<StatItem[]>([
       { value: '12', label: '今日配送', color: 'primary' },
@@ -171,6 +183,11 @@ export default defineComponent({
       }
     };
     
+    // 查看配送詳情
+    const viewDeliveryDetail = (deliveryId: number) => {
+      router.push(`/delivery/${deliveryId}`);
+    };
+    
     return {
       deliveries,
       getStatusIcon,
@@ -179,7 +196,8 @@ export default defineComponent({
       filterOutline,
       mapOutline,
       add,
-      deliveryStats
+      deliveryStats,
+      viewDeliveryDetail
     };
   }
 });
