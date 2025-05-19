@@ -7,6 +7,8 @@
       </ion-button>
     </div>
 
+    <stats-card :stats="deliveryStats" />
+    
     <ion-list>    <ion-item v-for="delivery in deliveries" :key="delivery.id" button detail lines="full" class="ion-margin-bottom">
       <ion-icon :icon="getStatusIcon(delivery.status)" slot="start" :color="getStatusColor(delivery.status)" class="ion-padding-start"></ion-icon>
       <ion-label>
@@ -57,6 +59,8 @@ import {
   IonFab,
   IonFabButton
 } from '@ionic/vue';
+import StatsCard from '../common/StatsCard.vue';
+import type { StatItem } from '../common/StatsCard.vue';
 import { 
   checkmarkCircleOutline, 
   timeOutline, 
@@ -90,9 +94,18 @@ export default defineComponent({
     IonCardTitle,
     IonCardContent,
     IonFab,
-    IonFabButton
+    IonFabButton,
+    StatsCard
   },
   setup() {
+    // 定義配送統計數據
+    const deliveryStats = ref<StatItem[]>([
+      { value: '12', label: '今日配送', color: 'primary' },
+      { value: '5', label: '已完成', color: 'success' },
+      { value: '4', label: '進行中', color: 'tertiary' },
+      { value: '3', label: '計劃中', color: 'warning' }
+    ]);
+
     const deliveries = ref<Delivery[]>([
       {
         id: 1,
