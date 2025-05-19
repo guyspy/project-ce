@@ -1,58 +1,16 @@
 <template>
   <app-layout title="顯示設定">
-    <ion-header class="ion-no-border">
-      <ion-toolbar>
-        <ion-buttons slot="start">
-          <ion-back-button default-href="/home"></ion-back-button>
-        </ion-buttons>
-        <ion-title>顯示設定</ion-title>
-        <ion-buttons slot="end">
-          <ion-button color="dark">
-            <ion-icon slot="icon-only" :ios="personCircleOutline" :md="personCircle"></ion-icon>
-          </ion-button>
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-header>
-
     <ion-content>
       <ion-list-header>外觀</ion-list-header>
       <ion-list :inset="true">
         <ion-item>
-          <ion-toggle :checked="paletteToggle" @ionChange="toggleChange($event)" justify="space-between">深色模式</ion-toggle>
+          <ion-label>深色模式</ion-label>
+          <ion-toggle :checked="paletteToggle" @ionChange="toggleChange($event)" justify="space-between"></ion-toggle>
         </ion-item>
         
         <ion-item detail @click="openPlatformModal">
           <ion-label>介面風格</ion-label>
           <ion-text slot="end" color="medium">{{ platformText }}</ion-text>
-        </ion-item>
-      </ion-list>
-
-      <ion-list :inset="true">
-        <ion-item detail>
-          <ion-label>字體大小</ion-label>
-        </ion-item>
-        <ion-item>
-          <ion-toggle justify="space-between">粗體字</ion-toggle>
-        </ion-item>
-      </ion-list>
-
-      <ion-list-header>亮度</ion-list-header>
-      <ion-list :inset="true">
-        <ion-item>
-          <ion-range value="40">
-            <ion-icon :icon="sunnyOutline" slot="start"></ion-icon>
-            <ion-icon :icon="sunny" slot="end"></ion-icon>
-          </ion-range>
-        </ion-item>
-        <ion-item>
-          <ion-toggle justify="space-between" checked>自動亮度</ion-toggle>
-        </ion-item>
-      </ion-list>
-
-      <ion-list :inset="true">
-        <ion-item detail>
-          <ion-label>夜間模式</ion-label>
-          <ion-text slot="end" color="medium">晚上 9:00 至 早上 8:00</ion-text>
         </ion-item>
       </ion-list>
     </ion-content>
@@ -101,6 +59,7 @@ import {
   IonButtons,
   IonButton,
   IonToggle,
+  IonText,
   alertController
 } from '@ionic/vue';
 import {
@@ -133,6 +92,7 @@ export default defineComponent({
     IonButtons,
     IonButton,
     IonToggle,
+    IonText,
     AppLayout
   },
   setup() {
