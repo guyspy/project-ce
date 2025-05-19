@@ -93,7 +93,7 @@
               </div>
               <div class="timeline-content">
                 <h3>運送中</h3>
-                <p>10:15 AM</p>
+                <p>{{ deliveryTimeline.find(t => t.step === 'in-transit')?.time || '10:15 AM' }}</p>
               </div>
             </div>
             <div class="timeline-item" :class="{ 
@@ -107,7 +107,7 @@
               </div>
               <div class="timeline-content">
                 <h3>配送出發</h3>
-                <p>9:30 AM</p>
+                <p>{{ deliveryTimeline.find(t => t.step === 'shipping')?.time || '9:30 AM' }}</p>
               </div>
             </div>
             <div class="timeline-item" :class="{ 
@@ -121,7 +121,7 @@
               </div>
               <div class="timeline-content">
                 <h3>備貨完成</h3>
-                <p>9:00 AM</p>
+                <p>{{ deliveryTimeline.find(t => t.step === 'preparing')?.time || '9:00 AM' }}</p>
               </div>
             </div>
           </div>
